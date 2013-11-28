@@ -1,8 +1,12 @@
 package apiutils;
 
+import googleplaces.City;
+import googleplaces.City.component;
 import googleplaces.Geometry;
 import googleplaces.SearchResult;
-import googleplaces.Ville;
+import googleplaces.ResultSearchInCity;
+import googleplaces.SearchResult.LocationResult;
+
 import com.google.gson.GsonBuilder;
 
 public class GooglePlaceCaller {
@@ -37,24 +41,35 @@ public class GooglePlaceCaller {
 			return ret;
 		}
 	}
+	
+	/****************************************************************************************************
+	 * RETOURNER LES DETAILS D'UNE VILLE
+	 ****************************************************************************************************/
+	public City CityDetail(String city){
+		String uri = searchurl + city;
+		String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
+		
+		City c = new GsonBuilder().create().fromJson(result, City.class);
+		return c;
+	}
+	
 	/****************************************************************************************************
 	 * RECHERCHE DE TOUTES LES ENTITEES 
 	 ****************************************************************************************************/
-	public Ville villeEntitiesFromWeb(String villename) {
+	public ResultSearchInCity villeEntitiesFromWeb(String villename){
 		String loc = locationFromVilleName(villename);
 		
 		if (loc != null) {
 			String uri = serverurl + loc +type+ key;
 			String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
-			Ville ret = new GsonBuilder().create().fromJson(result, Ville.class);
+			ResultSearchInCity ret = new GsonBuilder().create().fromJson(result, ResultSearchInCity.class);
 			
 			
 			while (ret.getNext_page_token()!=null){
 				uri = nextpage + ret.getNext_page_token() +key;
 				result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
-				ret.Append(new GsonBuilder().create().fromJson(result, Ville.class));
+				ret.Append(new GsonBuilder().create().fromJson(result, ResultSearchInCity.class));
 			}
-			
 			return ret;
 
 		} else {
@@ -70,21 +85,21 @@ public class GooglePlaceCaller {
 	/****************************************************************************************************
 	 * RECHERCHE DES AEROPORTS
 	 ****************************************************************************************************/
-	public Ville villeAirportsFromWeb(String villename) {
+	public ResultSearchInCity villeAirportsFromWeb(String villename) {
 		type = "&types=airport";
 		return villeEntitiesFromWeb(villename);
 	}
 	/****************************************************************************************************
 	 * RECHERCHE DES FOODs
 	 ****************************************************************************************************/
-	public Ville villeFoodsFromWeb(String villename) {
+	public ResultSearchInCity villeFoodsFromWeb(String villename) {
 		type = "&types=food";
 		return villeEntitiesFromWeb(villename);
 	}
 	/****************************************************************************************************
 	 * RECHERCHE DES MUSEUM
 	 ****************************************************************************************************/
-	public Ville villeMuseumsFromWeb(String villename) {
+	public ResultSearchInCity villeMuseumsFromWeb(String villename) {
 		type = "&types=museum";
 		return villeEntitiesFromWeb(villename);
 	}
@@ -92,7 +107,7 @@ public class GooglePlaceCaller {
 	/****************************************************************************************************
 	 * RECHERCHE DES LODGING
 	 ****************************************************************************************************/
-	public Ville villeLodgingsFromWeb(String villename) {
+	public ResultSearchInCity villeLodgingsFromWeb(String villename) {
 		type = "&types=lodging";
 		return villeEntitiesFromWeb(villename);
 	}

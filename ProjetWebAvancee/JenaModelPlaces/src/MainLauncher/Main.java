@@ -1,6 +1,7 @@
 package MainLauncher;
 
 import googleplaces.*;
+import googleplaces.City.component;
 import JenaUtils.ModelFactoryPlaces;
 import JenaUtils.SDBUtils;
 import apiutils.GooglePlaceCaller;
@@ -11,22 +12,18 @@ import com.hp.hpl.jena.sdb.store.DatasetStore;
 
 
 public class Main {
-	
-	
-	public static void main(String[] args) {
 		
+	public static void main(String[] args) {
+		/*
 		ModelFactoryPlaces model=new ModelFactoryPlaces();
 		SDBUtils DB = new SDBUtils();
-		DB.GetModelSDB();
-		
+		DB.GetModelSDB();*/
 		
 		GooglePlaceCaller x = new GooglePlaceCaller();
-		
-		Ville v = x.villeLodgingsFromWeb("Montpellier");
-		
-		for (Entity ent : v.getResults()) {
-			System.out.print(ent.getName()+"\n");
+		for (component comp: x.CityDetail("Lyon").getResults()){
+			System.out.println("ADRESSE " +comp.getFormatted_address());
 		}
+		
 	}
 }
 

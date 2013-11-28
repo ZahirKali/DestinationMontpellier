@@ -38,9 +38,10 @@ public class SDBUtils {
 		    * CREER LA BASE DE DONNEES
 		    ****************************************************/
 		   store.getTableFormatter().create();
-
+		   
 		   Model model = SDBFactory.connectDefaultModel(store);
 		   OntModel mdb = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, model);
+		   
 		   return mdb;
 	}
 

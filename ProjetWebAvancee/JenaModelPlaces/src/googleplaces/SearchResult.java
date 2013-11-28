@@ -16,4 +16,5 @@ public class SearchResult {
 	public List<LocationResult> getResults() {
 		return results;
 	}
+
 }

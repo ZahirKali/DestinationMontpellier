@@ -3,7 +3,7 @@ package googleplaces;
 
 import java.util.List;
 
-public class Ville{
+public class ResultSearchInCity{
    	private String next_page_token;
    	private List<Entity> results;
    	private String status;
@@ -27,7 +27,7 @@ public class Ville{
 		this.status = status;
 	}
 	
-	public void Append(Ville other){
+	public void Append(ResultSearchInCity other){
 		for (Entity ent  : other.getResults()) {
 			results.add(ent);
 		}

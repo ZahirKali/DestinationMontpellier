@@ -1,7 +1,7 @@
 package JenaUtils;
-import googleplaces.*;
-
-import org.omg.CORBA.Object;
+import googleplaces.Entity;
+import googleplaces.Location;
+import googleplaces.ResultSearchInCity;
 
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.ObjectProperty;
@@ -10,19 +10,18 @@ import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntProperty;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.RDFS;
 import com.hp.hpl.jena.vocabulary.XSD;
 
 
 public class ModelFactoryPlaces {
 	private OntModel model;
 	private String namespace = "http://localhost:9000/techweb";
-	private String ns_ville = "http://localhost:9000/techweb#ville";
+	private String ns_city = "http://localhost:9000/techweb#city";
 	private String ns_entity = "http://localhost:9000/techweb#entity";
 	private String ns_location = "http://localhost:9000/techweb#location";
-	private OntClass ville;
+	private OntClass city;
 	private OntClass entity;
 	private OntClass location;
 	
@@ -43,14 +42,15 @@ public class ModelFactoryPlaces {
 	 * CREATION DES CLASSES
 	 * ****************************************************************************************************************************/
 	public void CreateOntClasses(){
-		ville = model.createClass (namespace + "#ville");
+		city = model.createClass (namespace + "#city");
 		entity = model.createClass (namespace + "#entity");
 		location = model.createClass (namespace + "#location");
-		AddVilleProperties();
+		AddcityProperties();
 		AddEntityProperty();
 		AddLocationProperty();
-		AddVilleLocationProperty();
+		AddcityLocationProperty();
 		AddEntityLocationProperty();
+		
 	}
 	
 	/******************************************************************************************************************************
@@ -73,24 +73,25 @@ public class ModelFactoryPlaces {
 		ObjProperty.setLabel(label, "en");
 		return ObjProperty;
 	}
-	public void AddVilleProperties(){
-		ville.addProperty(CreateProperty(ville, ns_ville, "nom", "Le nom de la ville", "city name", XSD.xstring), ns_ville);
-		ville.addProperty(CreateProperty(ville, ns_ville, "formatted_addres", "l'address de la ville", "Ville address", XSD.xstring), ns_ville);
-		ville.addProperty(CreateProperty(ville, ns_ville, "type", "le type de la ville", "Ville Types", XSD.xstring), ns_ville);
+	public void AddcityProperties(){
+		city.addProperty(CreateProperty(city, ns_city, "name", "Le nom de la city", "city name", XSD.xstring), ns_city);
+		city.addProperty(CreateProperty(city, ns_city, "formatted_address", "l'address de la city", "city address", XSD.xstring), ns_city);
+		city.addProperty(CreateProperty(city, ns_city, "location", "la localisation de la city ", "city localisation", location), ns_city);
 	}
+	
 	public void AddEntityProperty(){
-		entity.addProperty(CreateProperty(entity, ns_entity, "name", "le nom de l'entity", "Entity Name", XSD.Name), ns_entity);
+		entity.addProperty(CreateProperty(entity, ns_entity, "name", "le nom de l'entity", "Entity Name", XSD.xstring), ns_entity);
 		entity.addProperty(CreateProperty(entity, ns_entity, "id", "l'identifiant de l'entity", "Entity Id", XSD.ID), ns_entity);
 		entity.addProperty(CreateProperty(entity, ns_entity, "type", "le type de l'entity", "Entity Types", RDF.List), ns_entity);
-		entity.addProperty(CreateProperty(entity, ns_entity, "adresse", "l'adresse de l'entité", "Entity Adress", XSD.xstring), ns_entity);
+		entity.addProperty(CreateProperty(entity, ns_entity, "address", "l'adresse de l'entité", "Entity Adress", XSD.xstring), ns_entity);
 	}
 	public void AddLocationProperty(){
 		location.addProperty(CreateProperty(location, ns_location, "lat", "latitude de l'entity", "loc latitude", XSD.xdouble), ns_location);
 		location.addProperty(CreateProperty(location, ns_location, "lng", "longitude de l'entity", "loc longitude", XSD.xdouble), ns_location);
 	}
 	
-	public void AddVilleLocationProperty(){
-		CreateObjectProperty("aPourLocation", ville, location,"Localisation d'une ville","Localisation of a city");
+	public void AddcityLocationProperty(){
+		CreateObjectProperty("aPourLocation", city, location,"Localisation d'une city","Localisation of a city");
 	}
 	public void AddEntityLocationProperty(){
 		CreateObjectProperty("aPourLocation", entity, location,"Localisation d'une entité","Localisation of an entity");
@@ -98,11 +99,15 @@ public class ModelFactoryPlaces {
 	/******************************************************************************************************************************
 	 * CREATION DES INSTANCES
 	 *****************************************************************************************************************************/
-	public void CreateVilleInstance(Ville v){
+	public void CreatecityInstance(ResultSearchInCity v){
+		Individual vil = city.createIndividual(ns_city+ v );
+	}
+	public void CreateEntityInstance(Entity ent){
 		
 	}
-	
-	
+	public void CreateLocationInstance(Location loc){
+		
+	}
 	/******************************************************************************************************************************
 	 * AFFICHAGE DE L'ONTOLOGIE
 	 *****************************************************************************************************************************/
