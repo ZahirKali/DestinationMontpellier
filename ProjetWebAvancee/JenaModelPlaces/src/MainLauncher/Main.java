@@ -14,15 +14,11 @@ import com.hp.hpl.jena.sdb.store.DatasetStore;
 public class Main {
 		
 	public static void main(String[] args) {
-		/*
+		
 		ModelFactoryPlaces model=new ModelFactoryPlaces();
 		SDBUtils DB = new SDBUtils();
-		DB.GetModelSDB();*/
-		
-		GooglePlaceCaller x = new GooglePlaceCaller();
-		for (component comp: x.CityDetail("Lyon").getResults()){
-			System.out.println("ADRESSE " +comp.getFormatted_address());
-		}
+		DB.GetModelSDB();
+
 		
 	}
 }
