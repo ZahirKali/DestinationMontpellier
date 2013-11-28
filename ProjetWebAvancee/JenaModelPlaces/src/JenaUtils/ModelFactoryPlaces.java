@@ -51,7 +51,6 @@ public class ModelFactoryPlaces {
 		AddLocationProperty();
 		AddVilleLocationProperty();
 		AddEntityLocationProperty();
-		toConsole();
 	}
 	
 	/******************************************************************************************************************************

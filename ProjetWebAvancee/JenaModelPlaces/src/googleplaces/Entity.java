@@ -6,13 +6,13 @@ import com.hp.hpl.jena.vocabulary.RDF;
 
 
 public class Entity{
-   	private Geometry geometry;
-   	private String icon;
-   	private String id;
-   	private String name;
-   	private String reference;
-   	private List<String> types;
-   	private String vicinity;
+   	protected Geometry geometry;
+   	protected String icon;
+   	protected String id;
+   	protected String name;
+   	protected String reference;
+   	protected List<String> types;
+   	protected String vicinity;
 
  	public Geometry getGeometry(){
 		return this.geometry;

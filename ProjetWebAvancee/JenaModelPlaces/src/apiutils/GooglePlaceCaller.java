@@ -10,25 +10,15 @@ public class GooglePlaceCaller {
 	int radius =5000;
 	String serverurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?sensor=false&radius=5000&location=";
 	String key = "&key=AIzaSyD9_YnuHc2OkfKWfdVKMiMT2eDKqYdaNRQ";
-
+	String type = "";
+	
 	String searchurl = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=";
-	
-	
 	String nextpage ="https://maps.googleapis.com/maps/api/place/nearbysearch/json?sensor=false&pagetoken=";
 
-	public GooglePlaceCaller() {
-	}
+	public GooglePlaceCaller() {}
 
-	public GooglePlaceCaller(int radius) {
-		this.radius = radius;
-	}
-
-	/**
-	 * Get Location from city name
-	 * 
-	 * @param villename
-	 * @return
-	 */
+	public GooglePlaceCaller(int radius) {this.radius = radius;	}
+	
 	private String locationFromVilleName(String villename) {
 		String uri = searchurl + villename;
 		
@@ -47,19 +37,14 @@ public class GooglePlaceCaller {
 			return ret;
 		}
 	}
-
-	/**
-	 * Get Places of given ville name
-	 * 
-	 * @param villename
-	 * @return
-	 */
-	
+	/****************************************************************************************************
+	 * RECHERCHE DE TOUTES LES ENTITEES 
+	 ****************************************************************************************************/
 	public Ville villeEntitiesFromWeb(String villename) {
 		String loc = locationFromVilleName(villename);
 		
 		if (loc != null) {
-			String uri = serverurl + loc + key;
+			String uri = serverurl + loc +type+ key;
 			String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
 			Ville ret = new GsonBuilder().create().fromJson(result, Ville.class);
 			
@@ -80,5 +65,35 @@ public class GooglePlaceCaller {
 			}
 			return null;
 		}
+	}
+	
+	/****************************************************************************************************
+	 * RECHERCHE DES AEROPORTS
+	 ****************************************************************************************************/
+	public Ville villeAirportsFromWeb(String villename) {
+		type = "&types=airport";
+		return villeEntitiesFromWeb(villename);
+	}
+	/****************************************************************************************************
+	 * RECHERCHE DES FOODs
+	 ****************************************************************************************************/
+	public Ville villeFoodsFromWeb(String villename) {
+		type = "&types=food";
+		return villeEntitiesFromWeb(villename);
+	}
+	/****************************************************************************************************
+	 * RECHERCHE DES MUSEUM
+	 ****************************************************************************************************/
+	public Ville villeMuseumsFromWeb(String villename) {
+		type = "&types=museum";
+		return villeEntitiesFromWeb(villename);
+	}
+	
+	/****************************************************************************************************
+	 * RECHERCHE DES LODGING
+	 ****************************************************************************************************/
+	public Ville villeLodgingsFromWeb(String villename) {
+		type = "&types=lodging";
+		return villeEntitiesFromWeb(villename);
 	}
 }

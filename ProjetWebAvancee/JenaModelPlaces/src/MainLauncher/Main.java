@@ -1,38 +1,58 @@
 package MainLauncher;
 
-import googleplaces.Entity;
-import googleplaces.Ville;
+import googleplaces.*;
 import JenaUtils.ModelFactoryPlaces;
 import JenaUtils.SDBUtils;
 import apiutils.GooglePlaceCaller;
 
-
+import com.hp.hpl.jena.ontology.OntModel;
+import com.hp.hpl.jena.query.Dataset;
+import com.hp.hpl.jena.sdb.store.DatasetStore;
 
 
 public class Main {
-
-	/**
-	 * @param args
-	 */
+	
+	
 	public static void main(String[] args) {
 		
-//		ModelFactoryPlaces model=new ModelFactoryPlaces();
-//		SDBUtils DB = new SDBUtils();
-//		DB.GetModelSDB();
+		ModelFactoryPlaces model=new ModelFactoryPlaces();
+		SDBUtils DB = new SDBUtils();
+		DB.GetModelSDB();
 		
 		
 		GooglePlaceCaller x = new GooglePlaceCaller();
 		
-		Ville v = x.villeEntitiesFromWeb("bougie");
-		
+		Ville v = x.villeLodgingsFromWeb("Montpellier");
 		
 		for (Entity ent : v.getResults()) {
-			System.out.print(ent.getName() +"*");
-			for (String str : ent.getTypes()) {
-				System.out.print(str +" / ");
-			}
-			System.out.println();
-			System.out.println("-------------------------------------------------------------------");
+			System.out.print(ent.getName()+"\n");
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
