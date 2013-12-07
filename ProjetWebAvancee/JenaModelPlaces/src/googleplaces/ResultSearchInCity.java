@@ -3,6 +3,8 @@ package googleplaces;
 
 import java.util.List;
 
+import JenaUtils.DumpString;
+
 public class ResultSearchInCity{
    	private String next_page_token;
    	private List<Entity> results;
@@ -33,5 +35,11 @@ public class ResultSearchInCity{
 		}
 		
 		next_page_token= other.getNext_page_token();
+	}
+	
+	
+	@Override
+	public String toString() {
+		return DumpString.dumpString(this);
 	}
 }

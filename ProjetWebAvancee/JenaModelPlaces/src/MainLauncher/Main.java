@@ -1,51 +1,32 @@
 package MainLauncher;
 
-import googleplaces.*;
-import googleplaces.City.component;
+import googleplaces.ResultSearchInCity;
 import JenaUtils.ModelFactoryPlaces;
-import JenaUtils.SDBUtils;
 import apiutils.GooglePlaceCaller;
 
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.sdb.store.DatasetStore;
-
-
 public class Main {
-		
-	public static void main(String[] args) {
-		
-		ModelFactoryPlaces model=new ModelFactoryPlaces();
-		SDBUtils DB = new SDBUtils();
-		DB.GetModelSDB();
 
+	public static void main(String[] args) {
+		//GetFromWeb();
+		CreateJENa();
+	}
+
+	public static void CreateJENa() {
+		//SDBUtils.emptySDBModel();
+
+		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
+		//model.toConsole();
+	}
+
+	public static void GetFromWeb() {
+		
+		GooglePlaceCaller x = new GooglePlaceCaller(10000);
+		ResultSearchInCity r =  x.villeEntitiesFromWeb("Montpellier");
+		
+		
+		System.out.println(r);
+		
 		
 	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

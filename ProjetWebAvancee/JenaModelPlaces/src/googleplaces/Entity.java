@@ -2,7 +2,10 @@ package googleplaces;
 
 import java.util.List;
 
-import com.hp.hpl.jena.vocabulary.RDF;
+import JenaUtils.DumpString;
+import JenaUtils.ModelFactoryPlaces;
+
+import com.hp.hpl.jena.ontology.Individual;
 
 
 public class Entity{
@@ -56,5 +59,27 @@ public class Entity{
 	}
 	public void setVicinity(String vicinity){
 		this.vicinity = vicinity;
+	}
+	
+	@Override
+	public String toString() {
+		return DumpString.dumpString(this);
+	}
+	
+	public Individual toIndividual(){
+		
+		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
+		
+		Individual m = model.getEntity().createIndividual(id);
+		
+		
+		
+		
+		
+		return m;
+	}
+	
+	public static void fromIndividual(Individual indevedu){
+		
 	}
 }

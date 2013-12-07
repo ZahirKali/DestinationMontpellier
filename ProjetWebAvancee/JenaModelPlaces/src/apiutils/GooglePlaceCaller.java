@@ -1,11 +1,9 @@
 package apiutils;
 
 import googleplaces.City;
-import googleplaces.City.component;
 import googleplaces.Geometry;
-import googleplaces.SearchResult;
 import googleplaces.ResultSearchInCity;
-import googleplaces.SearchResult.LocationResult;
+import googleplaces.SearchResult;
 
 import com.google.gson.GsonBuilder;
 
