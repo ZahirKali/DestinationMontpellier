@@ -1,10 +1,10 @@
 package apiutils;
 
-import googleplaces.City;
-import googleplaces.City.component;
+import googleplaces.CityInfo;
+import googleplaces.CityInfo.component;
 import googleplaces.Geometry;
 import googleplaces.SearchResult;
-import googleplaces.ResultSearchInCity;
+import googleplaces.City;
 import googleplaces.SearchResult.LocationResult;
 
 import com.google.gson.GsonBuilder;
@@ -23,8 +23,8 @@ public class GooglePlaceCaller {
 
 	public GooglePlaceCaller(int radius) {this.radius = radius;	}
 	
-	private String locationFromVilleName(String villename) {
-		String uri = searchurl + villename;
+	private String locationFromcityName(String cityName) {
+		String uri = searchurl + cityName;
 		
 		//result contiens le contenu JSON
 		String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
@@ -45,30 +45,31 @@ public class GooglePlaceCaller {
 	/****************************************************************************************************
 	 * RETOURNER LES DETAILS D'UNE VILLE
 	 ****************************************************************************************************/
-	public City CityDetail(String city){
-		String uri = searchurl + city;
+	private CityInfo getCityInfo(String cityName){
+		String uri = searchurl + cityName;
 		String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
 		
-		City c = new GsonBuilder().create().fromJson(result, City.class);
+		CityInfo c = new GsonBuilder().create().fromJson(result, CityInfo.class);
 		return c;
 	}
 	
 	/****************************************************************************************************
 	 * RECHERCHE DE TOUTES LES ENTITEES 
 	 ****************************************************************************************************/
-	public ResultSearchInCity villeEntitiesFromWeb(String villename){
-		String loc = locationFromVilleName(villename);
+	public City villeEntitiesFromWeb(String cityName){
+		String loc = locationFromcityName(cityName);
 		
 		if (loc != null) {
 			String uri = serverurl + loc +type+ key;
 			String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
-			ResultSearchInCity ret = new GsonBuilder().create().fromJson(result, ResultSearchInCity.class);
+			City ret = new GsonBuilder().create().fromJson(result, City.class);
+			ret.setDetails(getCityInfo(cityName)); //les infos de la ville
 			
 			
 			while (ret.getNext_page_token()!=null){
 				uri = nextpage + ret.getNext_page_token() +key;
 				result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
-				ret.Append(new GsonBuilder().create().fromJson(result, ResultSearchInCity.class));
+				ret.Append(new GsonBuilder().create().fromJson(result, City.class));
 			}
 			return ret;
 
@@ -85,30 +86,30 @@ public class GooglePlaceCaller {
 	/****************************************************************************************************
 	 * RECHERCHE DES AEROPORTS
 	 ****************************************************************************************************/
-	public ResultSearchInCity villeAirportsFromWeb(String villename) {
+	public City villeAirportsFromWeb(String cityName) {
 		type = "&types=airport";
-		return villeEntitiesFromWeb(villename);
+		return villeEntitiesFromWeb(cityName);
 	}
 	/****************************************************************************************************
 	 * RECHERCHE DES FOODs
 	 ****************************************************************************************************/
-	public ResultSearchInCity villeFoodsFromWeb(String villename) {
+	public City villeFoodsFromWeb(String cityName) {
 		type = "&types=food";
-		return villeEntitiesFromWeb(villename);
+		return villeEntitiesFromWeb(cityName);
 	}
 	/****************************************************************************************************
 	 * RECHERCHE DES MUSEUM
 	 ****************************************************************************************************/
-	public ResultSearchInCity villeMuseumsFromWeb(String villename) {
+	public City villeMuseumsFromWeb(String cityName) {
 		type = "&types=museum";
-		return villeEntitiesFromWeb(villename);
+		return villeEntitiesFromWeb(cityName);
 	}
 	
 	/****************************************************************************************************
 	 * RECHERCHE DES LODGING
 	 ****************************************************************************************************/
-	public ResultSearchInCity villeLodgingsFromWeb(String villename) {
+	public City villeLodgingsFromWeb(String cityName) {
 		type = "&types=lodging";
-		return villeEntitiesFromWeb(villename);
+		return villeEntitiesFromWeb(cityName);
 	}
 }

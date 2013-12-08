@@ -1,7 +1,11 @@
 package JenaUtils;
 import googleplaces.Entity;
 import googleplaces.Location;
-import googleplaces.ResultSearchInCity;
+import googleplaces.City;
+import googleplaces.types.Airport;
+import googleplaces.types.Food;
+import googleplaces.types.Lodging;
+import googleplaces.types.Museum;
 
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.ObjectProperty;
@@ -123,15 +127,38 @@ public class ModelFactoryPlaces {
 	/******************************************************************************************************************************
 	 * CREATION DES INSTANCES
 	 *****************************************************************************************************************************/
-	public void CreatecityInstance(ResultSearchInCity v){
+	public Individual CreateCityInstance(City v){
 		Individual vil = city.createIndividual(ns_city+ v );
+		return vil;
 	}
-	public void CreateEntityInstance(Entity ent){
+	public Individual CreateEntityInstance(Entity e){
+		Individual ent = entity.createIndividual(ns_entity+e);
+		return ent;
+	}
+	public Individual CreateLocationInstance(Location l){
+		Individual loc = location.createIndividual(ns_location+l);
+		return loc;
+	}
+	
+	public Individual CreateAireportInstance(Airport a){
+		Individual air = airport.createIndividual(ns_airport+a);
+		return air;
+	}
+	
+	public Individual CreateFoodInstance(Food f){
+		Individual foo = food.createIndividual(ns_food+f);
+		return foo;
+	}
+	public Individual CreateLodgingInstance(Lodging l){
+		Individual lod = lodging.createIndividual(ns_lodging+l);
+		return lod;
+	}
+	public Individual createMuseumInstance(Museum m){
+		Individual mus = museum.createIndividual(ns_museum+m);
+		return mus;
+	}
 		
-	}
-	public void CreateLocationInstance(Location loc){
-		
-	}
+	
 	/******************************************************************************************************************************
 	 * AFFICHAGE DE L'ONTOLOGIE
 	 *****************************************************************************************************************************/
