@@ -1,11 +1,16 @@
 package JenaUtils;
 
+import googleplaces.City;
 import googleplaces.Entity;
 import googleplaces.Location;
-import googleplaces.ResultSearchInCity;
+import googleplaces.types.Airport;
+import googleplaces.types.Food;
+import googleplaces.types.Lodging;
+import googleplaces.types.Museum;
 
 import java.util.Iterator;
 
+import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -21,10 +26,10 @@ public class ModelFactoryPlaces {
 	private String ns_city = "http://localhost:9000/techweb#city";
 	private String ns_entity = "http://localhost:9000/techweb#entity";
 	private String ns_location = "http://localhost:9000/techweb#location";
-	// private String ns_airport = "http://localhost:9000/techweb#airport";
-	// private String ns_food = "http://localhost:9000/techweb#food";
-	// private String ns_lodging = "http://localhost:9000/techweb#lodging";
-	// private String ns_museum = "http://localhost:9000/techweb#museum";
+	private String ns_airport = "http://localhost:9000/techweb#airport";
+	private String ns_food = "http://localhost:9000/techweb#food";
+	private String ns_lodging = "http://localhost:9000/techweb#lodging";
+	private String ns_museum = "http://localhost:9000/techweb#museum";
 
 	private OntClass city;
 	private OntClass entity;
@@ -40,7 +45,19 @@ public class ModelFactoryPlaces {
 		CreateIfNotExistOntologie();
 	}
 
+	public OntModel getModel() {
+		return model;
+	}
+
 	public static ModelFactoryPlaces getMPlaces() {
+		if (singleton == null) {
+			singleton = new ModelFactoryPlaces();
+		}
+		return singleton;
+
+	}
+
+	public static ModelFactoryPlaces getInstance() {
 		if (singleton == null) {
 			singleton = new ModelFactoryPlaces();
 		}
@@ -64,7 +81,7 @@ public class ModelFactoryPlaces {
 			do {
 				OntClass c = cl.next();
 
-				ClassType type = ClassType.valueOf(c.getLocalName());
+				OntClassType type = OntClassType.valueOf(c.getLocalName());
 				switch (type) {
 				case city:
 					city = c;
@@ -140,6 +157,8 @@ public class ModelFactoryPlaces {
 	/**
 	 * Create a Property
 	 * 
+	 * CreateProperty(entity, ns_entity, "name", "le nom de l'entity",
+						"Entity Name", XSD.xstring), ns_entity);
 	 * @param classe
 	 *            OntClass
 	 * @param namespace
@@ -247,16 +266,39 @@ public class ModelFactoryPlaces {
 	/******************************************************************************************************************************
 	 * CREATION DES INSTANCES
 	 *****************************************************************************************************************************/
-	public void CreatecityInstance(ResultSearchInCity v) {
-		// Individual vil = city.createIndividual(ns_city + v);
+	public Individual CreateCityInstance(City v) {
+		Individual vil = city.createIndividual(ns_city + v);
+		return vil;
 	}
 
-	public void CreateEntityInstance(Entity ent) {
-
+	public Individual CreateEntityInstance(Entity e) {
+		Individual ent = entity.createIndividual(ns_entity + e);
+		return ent;
 	}
 
-	public void CreateLocationInstance(Location loc) {
+	public Individual CreateLocationInstance(Location l) {
+		Individual loc = location.createIndividual(ns_location + l);
+		return loc;
+	}
 
+	public Individual CreateAireportInstance(Airport a) {
+		Individual air = airport.createIndividual(ns_airport + a);
+		return air;
+	}
+
+	public Individual CreateFoodInstance(Food f) {
+		Individual foo = food.createIndividual(ns_food + f);
+		return foo;
+	}
+
+	public Individual CreateLodgingInstance(Lodging l) {
+		Individual lod = lodging.createIndividual(ns_lodging + l);
+		return lod;
+	}
+
+	public Individual createMuseumInstance(Museum m) {
+		Individual mus = museum.createIndividual(ns_museum + m);
+		return mus;
 	}
 
 	/******************************************************************************************************************************
@@ -307,6 +349,48 @@ public class ModelFactoryPlaces {
 
 	public OntClass getMuseum() {
 		return museum;
+	}
+
+	public OntClass getClassByString(String ontclassName) {
+
+		try {
+			OntClassType name = OntClassType.valueOf(ontclassName);
+			switch (name) {
+			case city:
+				return city;
+
+			case airport:
+				return airport;
+
+			case entity:
+				return entity;
+
+			case food:
+				return food;
+
+			case location:
+				return location;
+
+			case lodging:
+				return location;
+
+			case museum:
+				return museum;
+
+			default:
+				return null;
+			}
+
+		} catch (Exception e) {
+			System.out.println(" ONT CLASS Dont EXIST : " + ontclassName);
+			return null;
+		}
+
+	}
+	
+	
+	public String getNamespace() {
+		return namespace;
 	}
 
 }

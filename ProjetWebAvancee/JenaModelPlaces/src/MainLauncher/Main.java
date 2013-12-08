@@ -1,27 +1,44 @@
 package MainLauncher;
 
-import googleplaces.ResultSearchInCity;
+import googleplaces.City;
 import JenaUtils.ModelFactoryPlaces;
+import JenaUtils.SDBUtils;
 import apiutils.GooglePlaceCaller;
 
-public class Main {
 
+
+public class Main {
+	
 	public static void main(String[] args) {
-		//GetFromWeb();
+		
+		
 		CreateJENa();
+		
+		//ModelFactoryPlaces model=ModelFactoryPlaces.getInstance();
+		
+		
+		// GooglePlaceCaller place = new GooglePlaceCaller();
+		// City lyon = place.villeEntitiesFromWeb("Lyon");
+		// SDBUtils.insertEntitiesIntoModel(lyon);
+		// String prefix="http://localhost:9000/techweb#";
+		// Query query = QueryFactory.create("select ?class where{ ?class subClassOf ?Entity}") ;
+		
+		//DB.executeQuery(query);
+
 	}
 
 	public static void CreateJENa() {
 		//SDBUtils.emptySDBModel();
 
 		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
-		//model.toConsole();
+		model.getAirport().createIndividual(model.getNamespace()+"1234");
+		model.toConsole();
 	}
 
 	public static void GetFromWeb() {
 		
 		GooglePlaceCaller x = new GooglePlaceCaller(10000);
-		ResultSearchInCity r =  x.villeEntitiesFromWeb("Montpellier");
+		City r =  x.villeEntitiesFromWeb("Montpellier");
 		
 		
 		System.out.println(r);

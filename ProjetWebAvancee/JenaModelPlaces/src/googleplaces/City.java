@@ -1,63 +1,54 @@
+
 package googleplaces;
 
 import java.util.List;
 
-public class City {
-	
-	private List<component> results;
-	public List<component> getResults(){
-		return results;
-	}
-	
-	public class component{
-		private List<adr_comp> address_components;
-		private String formatted_address;
-		private Geometry geometry;
-		
-		public List<adr_comp> getAddress_components() {
-			return address_components;
-		}
-		public void setAddress_components(List<adr_comp> address_components) {
-			this.address_components = address_components;
-		}
-		public String getFormatted_address() {
-			return formatted_address;
-		}
-		public void setFormatted_address(String formatted_address) {
-			this.formatted_address = formatted_address;
-		}
-		public Geometry getGeometry() {
-			return geometry;
-		}
-		public void setGeometry(Geometry geometry) {
-			this.geometry = geometry;
-		}
-	}
-	
-	public class adr_comp{
-		private String long_name;
-		private String short_name;
-		private List<String> types;
-		
+import JenaUtils.DumpString;
 
-		public String getLong_name() {
-			return long_name;
-		}
-		public void setLong_name(String long_name) {
-			this.long_name = long_name;
-		}
-		public String getShort_name() {
-			return short_name;
-		}
-		public void setShort_name(String short_name) {
-			this.short_name = short_name;
-		}
-		public List<String> getTypes() {
-			return types;
-		}
-		public void setTypes(List<String> types) {
-			this.types = types;
-		}
+public class City{
+   	private String next_page_token;
+   	private List<Entity> results;
+   	private String status;
+   	private CityInfo infos;
+   	
+ 	public String getNext_page_token(){
+		return this.next_page_token;
+	}
+	public void setNext_page_token(String next_page_token){
+		this.next_page_token = next_page_token;
+	}
+ 	public List<Entity> getResults(){
+		return this.results;
+	}
+	public void setResults(List<Entity> results){
+		this.results = results;
+	}
+ 	public String getStatus(){
+		return this.status;
+	}
+	public void setStatus(String status){
+		this.status = status;
 	}
 	
+	public void setDetails(CityInfo inf){
+		this.infos= inf;
+	}
+	
+	public CityInfo getDetails(){
+		return this.infos;
+	}
+	
+	public void Append(City other){
+		for (Entity ent  : other.getResults()) {
+			results.add(ent);
+		}
+		
+		next_page_token= other.getNext_page_token();
+	}
+	
+	
+	@Override
+	public String toString() {
+		return DumpString.dumpString(this);
+	}
 }

@@ -1,14 +1,18 @@
 package googleplaces;
 
+import java.util.Iterator;
 import java.util.List;
 
 import JenaUtils.DumpString;
 import JenaUtils.ModelFactoryPlaces;
 
 import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.XSD;
 
 
-public class Entity{
+public class Entity implements Cloneable{
    	protected Geometry geometry;
    	protected String icon;
    	protected String id;
@@ -66,6 +70,8 @@ public class Entity{
 		return DumpString.dumpString(this);
 	}
 	
+
+	
 	public Individual toIndividual(){
 		
 		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
@@ -73,7 +79,22 @@ public class Entity{
 		Individual m = model.getEntity().createIndividual(id);
 		
 		
+		Iterator<Statement> stmt = model.getEntity().listProperties();
 		
+		while(stmt.hasNext()){
+			Statement s = stmt.next();
+			
+			if(s.getPredicate().getLocalName().equals("name")){
+				
+			}
+			
+		}
+		
+		
+		
+		for(String type : types){
+			model.getClassByString(type).createIndividual(id);
+		}
 		
 		
 		return m;
@@ -81,5 +102,11 @@ public class Entity{
 	
 	public static void fromIndividual(Individual indevedu){
 		
+	}
+	
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 }
