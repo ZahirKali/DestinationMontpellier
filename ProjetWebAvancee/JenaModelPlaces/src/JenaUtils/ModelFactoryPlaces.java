@@ -120,9 +120,8 @@ public class ModelFactoryPlaces {
 				}
 			} while (cl.hasNext());
 		}
-		/*
-		 * sinon on la cree
-		 */
+		
+		/*sinon on la cree*/
 		else {
 			System.out.println("Creating Ont Class ");
 			CreateOntClasses();
