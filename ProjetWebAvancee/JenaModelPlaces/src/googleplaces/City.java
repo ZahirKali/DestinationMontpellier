@@ -1,9 +1,17 @@
 
 package googleplaces;
 
+import googleplaces.CityInfo.adr_comp;
+import googleplaces.CityInfo.component;
+
+import java.util.Iterator;
 import java.util.List;
 
+import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.rdf.model.Statement;
+
 import JenaUtils.DumpString;
+import JenaUtils.ModelFactoryPlaces;
 
 public class City{
    	private String next_page_token;
@@ -51,4 +59,45 @@ public class City{
 	public String toString() {
 		return DumpString.dumpString(this);
 	}
+	
+	public Individual toIndividual(){
+		
+		
+		component comp = infos.getResults().get(0);
+		if(comp == null){
+			return null;
+		}
+		
+		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
+
+		
+		
+		Individual cityI = model.getEntity().createIndividual(
+				model.getNs_entity() + "blabla");
+
+		Iterator<Statement> stmt = model.getEntity().listProperties();
+
+		while (stmt.hasNext()) {
+			Statement s = stmt.next();
+
+			adr_comp  address = comp.getAddress_components().get(0);
+			
+			
+			if (s.getPredicate().getLocalName().equals("name")) {
+				if(address != null)
+					cityI.addProperty(s.getPredicate(), comp.getAddress_components().get(0).getLong_name());
+			} else if (s.getPredicate().getLocalName().equals("formatted_addres")) {
+				cityI.addProperty(s.getPredicate(), comp.getFormatted_address());
+			}  else if (s.getPredicate().getLocalName().equals("location")) {
+				//comp.getGeometry().getLocation().toIndividual(id)
+			}  
+		}
+		
+		return cityI;
+
+		
+		
+	}
 }
+
+

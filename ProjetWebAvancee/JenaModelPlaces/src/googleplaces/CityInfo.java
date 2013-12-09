@@ -2,6 +2,8 @@ package googleplaces;
 
 import java.util.List;
 
+import JenaUtils.DumpString;
+
 public class CityInfo {
 	
 	private List<component> results;
@@ -9,6 +11,11 @@ public class CityInfo {
 		return results;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return DumpString.dumpString(this);
+	}
 	public class component{
 		private List<adr_comp> address_components;
 		private String formatted_address;
@@ -31,6 +38,12 @@ public class CityInfo {
 		}
 		public void setGeometry(Geometry geometry) {
 			this.geometry = geometry;
+		}
+		
+		
+		@Override
+		public String toString() {
+			return DumpString.dumpString(this);
 		}
 	}
 	
@@ -57,6 +70,11 @@ public class CityInfo {
 		}
 		public void setTypes(List<String> types) {
 			this.types = types;
+		}
+		
+		@Override
+		public String toString() {
+			return DumpString.dumpString(this);
 		}
 	}
 	

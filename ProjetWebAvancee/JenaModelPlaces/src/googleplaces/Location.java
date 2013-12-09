@@ -1,6 +1,13 @@
 
 package googleplaces;
 
+import java.util.Iterator;
+
+import JenaUtils.ModelFactoryPlaces;
+
+import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.rdf.model.Statement;
+
 
 public class Location{
    	private Number lat;
@@ -17,5 +24,29 @@ public class Location{
 	}
 	public void setLng(Number lng){
 		this.lng = lng;
+	}
+	
+	
+	public Individual toIndividual(String id){
+		
+		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
+
+		Individual locationI = model.getEntity().createIndividual(
+				model.getNs_entity() + id);
+
+		Iterator<Statement> stmt = model.getEntity().listProperties();
+
+		while (stmt.hasNext()) {
+			Statement s = stmt.next();
+
+			if (s.getPredicate().getLocalName().equals("lat")) {
+				locationI.addProperty(s.getPredicate(), lat.toString());
+			} else if (s.getPredicate().getLocalName().equals("lng")) {
+				locationI.addProperty(s.getPredicate(), lng.toString());
+			} 
+		}
+		
+		return locationI;
+
 	}
 }

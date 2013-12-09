@@ -1,7 +1,10 @@
 package googleplaces;
 
+import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.rdf.model.Resource;
 
-public class Geometry{
+
+public class Geometry {
    	private Location location;
    	private Viewport viewport;
 
@@ -16,5 +19,19 @@ public class Geometry{
 	}
 	public void setViewport(Viewport viewport){
 		this.viewport = viewport;
+	}
+	
+	
+	public Individual toIndividual(String id){
+		if(location != null){
+			return location.toIndividual(id);
+		} else {
+			return null;
+		}
+	}
+	
+	public static Geometry fromIndivdual(Resource ressource) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
