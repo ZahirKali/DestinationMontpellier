@@ -71,7 +71,10 @@ public class Entity implements Cloneable{
 	}
 	
 
-	
+	/**
+	 * Convert Entity to Individual JENA
+	 * @return
+	 */
 	public Individual toIndividual(){
 		
 		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
