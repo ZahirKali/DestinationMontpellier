@@ -7,8 +7,6 @@ import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntProperty;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.XSD;
 
 public class ModelFactoryPlaces {
@@ -17,10 +15,11 @@ public class ModelFactoryPlaces {
 	private String ns_city = "http://localhost:9000/techweb/city#";
 	private String ns_entity = "http://localhost:9000/techweb/entity#";
 	private String ns_location = "http://localhost:9000/techweb/location#";
-	
+
 	private OntClass city;
 	private OntClass entity;
 	private OntClass location;
+
 	private OntClass transport;
 	private OntClass food;
 	private OntClass lodging;
@@ -28,6 +27,7 @@ public class ModelFactoryPlaces {
 	private OntClass money;
 	private OntClass religion;
 	private OntClass loisirs;
+	private OntClass study;
 
 	static ModelFactoryPlaces singleton = null;
 
@@ -77,7 +77,7 @@ public class ModelFactoryPlaces {
 					city = c;
 					break;
 
-				case airport:
+				case transport:
 					transport = c;
 					break;
 
@@ -93,21 +93,37 @@ public class ModelFactoryPlaces {
 				case lodging:
 					location = c;
 					break;
-				case museum:
+				case loisirs:
 					loisirs = c;
 					break;
 
+				case health:
+					health = c;
+					break;
+					
+				case money:
+					money = c;
+					break;
+					
+				case religion:
+					religion = c;
+					break;
+
+				case study:
+					study  = c;
+					break;
+					
 				default:
 					break;
 				}
 
-				System.err.println(c.getLocalName());
-				Iterator<Statement> ps = c.listProperties();
-				while (ps.hasNext()) {
-					Statement p = ps.next();
-					System.out.println(p);
-
-				}
+				// System.err.println(c.getLocalName());
+				// Iterator<Statement> ps = c.listProperties();
+				// while (ps.hasNext()) {
+				// Statement p = ps.next();
+				// System.out.println(p);
+				//
+				// }
 			} while (cl.hasNext());
 		}
 
@@ -125,20 +141,24 @@ public class ModelFactoryPlaces {
 	public void CreateOntClasses() {
 
 		model.setNsPrefix("places", namespace);
+		model.setNsPrefix("geoloc", ns_location);
+		model.setNsPrefix("city", ns_city);
+		model.setNsPrefix("entity", ns_entity);
+
 
 		city = model.createClass(namespace + "city");
 		entity = model.createClass(namespace + "entity");
 		location = model.createClass(namespace + "location");
-		
+
 		transport = model.createClass(namespace + "transport");
 		food = model.createClass(namespace + "food");
 		lodging = model.createClass(namespace + "lodging");
 		loisirs = model.createClass(namespace + "loisirs");
 		religion = model.createClass(namespace + "religion");
-		religion = model.createClass(namespace + "health");
-		religion = model.createClass(namespace + "loisirs");
-		
-		
+		health = model.createClass(namespace + "health");
+		money = model.createClass(namespace + "money");
+		study = model.createClass(namespace + "study");
+
 		AddcityProperties();
 		AddEntityProperty();
 		AddLocationProperty();
@@ -208,6 +228,8 @@ public class ModelFactoryPlaces {
 				CreateProperty(city, ns_city, "location",
 						"la localisation de la city ", "city localisation",
 						location), ns_city);
+
+		
 	}
 
 	void AddEntityProperty() {
@@ -220,8 +242,8 @@ public class ModelFactoryPlaces {
 						"l'identifiant de l'entity", "Entity Id", XSD.ID),
 				ns_entity);
 		entity.addProperty(
-				CreateProperty(entity, ns_entity, "type",
-						"le type de l'entity", "Entity Types", RDF.List),
+				CreateProperty(entity, ns_entity, "city",
+						"la city de l'entity", "Entity city", city),
 				ns_entity);
 		entity.addProperty(
 				CreateProperty(entity, ns_entity, "address",
@@ -258,46 +280,47 @@ public class ModelFactoryPlaces {
 		entity.addSubClass(loisirs);
 		entity.addSubClass(religion);
 		entity.addSubClass(health);
-		entity.addSubClass(loisirs);
+		entity.addSubClass(money);
+		entity.addSubClass(study);
 	}
 
-//	/******************************************************************************************************************************
-//	 * CREATION DES INSTANCES
-//	 *****************************************************************************************************************************/
-//	public Individual CreateCityInstance(City v) {
-//		Individual vil = city.createIndividual(ns_city + v);
-//		return vil;
-//	}
-//
-//	public Individual CreateEntityInstance(Entity e) {
-//		Individual ent = entity.createIndividual(ns_entity + e);
-//		return ent;
-//	}
-//
-//	public Individual CreateLocationInstance(Location l) {
-//		Individual loc = location.createIndividual(ns_location + l);
-//		return loc;
-//	}
-//
-//	public Individual CreateAireportInstance(Airport a) {
-//		Individual air = airport.createIndividual(ns_airport + a);
-//		return air;
-//	}
-//
-//	public Individual CreateFoodInstance(Food f) {
-//		Individual foo = food.createIndividual(ns_food + f);
-//		return foo;
-//	}
-//
-//	public Individual CreateLodgingInstance(Lodging l) {
-//		Individual lod = lodging.createIndividual(ns_lodging + l);
-//		return lod;
-//	}
-//
-//	public Individual createMuseumInstance(Museum m) {
-//		Individual mus = museum.createIndividual(ns_museum + m);
-//		return mus;
-//	}
+	// /******************************************************************************************************************************
+	// * CREATION DES INSTANCES
+	// *****************************************************************************************************************************/
+	// public Individual CreateCityInstance(City v) {
+	// Individual vil = city.createIndividual(ns_city + v);
+	// return vil;
+	// }
+	//
+	// public Individual CreateEntityInstance(Entity e) {
+	// Individual ent = entity.createIndividual(ns_entity + e);
+	// return ent;
+	// }
+	//
+	// public Individual CreateLocationInstance(Location l) {
+	// Individual loc = location.createIndividual(ns_location + l);
+	// return loc;
+	// }
+	//
+	// public Individual CreateAireportInstance(Airport a) {
+	// Individual air = airport.createIndividual(ns_airport + a);
+	// return air;
+	// }
+	//
+	// public Individual CreateFoodInstance(Food f) {
+	// Individual foo = food.createIndividual(ns_food + f);
+	// return foo;
+	// }
+	//
+	// public Individual CreateLodgingInstance(Lodging l) {
+	// Individual lod = lodging.createIndividual(ns_lodging + l);
+	// return lod;
+	// }
+	//
+	// public Individual createMuseumInstance(Museum m) {
+	// Individual mus = museum.createIndividual(ns_museum + m);
+	// return mus;
+	// }
 
 	/******************************************************************************************************************************
 	 * AFFICHAGE DE L'ONTOLOGIE
@@ -311,7 +334,7 @@ public class ModelFactoryPlaces {
 	 * 
 	 * @return @{OntClass}
 	 */
-	public OntClass getAirport() {
+	public OntClass getTransport() {
 		return transport;
 	}
 
@@ -345,25 +368,42 @@ public class ModelFactoryPlaces {
 		return lodging;
 	}
 
-	public OntClass getMuseum() {
+	public OntClass getLoisirs() {
 		return loisirs;
 	}
 
-	public OntClass getClassByString(String ontclassName) {
+	public OntClass getHealth() {
+		return health;
+	}
+
+	public OntClass getMoney() {
+		return money;
+	}
+
+	public OntClass getReligion() {
+		return religion;
+	}
+
+	/**
+	 * Get Ont CLASS FROM GOOGLE PLACE TYPE
+	 * 
+	 * @param googleplacetype
+	 * @return
+	 */
+	public OntClass getClassByString(String googleplacetype) {
 
 		OntClass ret = null;
 		try {
-			OntClassType name = OntClassType.valueOf(ontclassName);
+			GooglePlaceType name = GooglePlaceType.valueOf(googleplacetype);
 			switch (name) {
 			case city:
 				ret = city;
 				break;
 
-			
 			case church:
 			case mosque:
 			case hindu_temple:
-				ret =religion;
+				ret = religion;
 				break;
 
 			case amusement_park:
@@ -381,9 +421,9 @@ public class ModelFactoryPlaces {
 
 			case university:
 			case school:
-			 
-			 	break;
-				
+				ret = study;
+				break;
+
 			case food:
 			case bar:
 			case restaurant:
@@ -395,7 +435,6 @@ public class ModelFactoryPlaces {
 				ret = location;
 				break;
 
-			
 			case travel_agency:
 			case lodging:
 				ret = lodging;
@@ -422,7 +461,6 @@ public class ModelFactoryPlaces {
 				ret = health;
 				break;
 
-				
 			case train_station:
 			case bus_station:
 			case parking:
@@ -431,7 +469,7 @@ public class ModelFactoryPlaces {
 			case taxi_stand:
 				ret = transport;
 				break;
-				
+
 			case entity:
 				break;
 
@@ -440,7 +478,7 @@ public class ModelFactoryPlaces {
 			}
 
 		} catch (Exception e) {
-			System.out.println(" ONT CLASS Dont EXIST : " + ontclassName);
+			System.out.println(" ONT CLASS Dont EXIST : " + googleplacetype);
 		}
 
 		return ret;
@@ -479,6 +517,4 @@ public class ModelFactoryPlaces {
 	}
 
 }
-
-
 

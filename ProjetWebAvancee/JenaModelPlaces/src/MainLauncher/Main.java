@@ -12,8 +12,8 @@ public class Main {
 	public static void main(String[] args) {
 		
 		
-		//CreateJENa();
-		GetFromWeb();
+		CreateJENa();
+		//GetFromWeb();
 		//ModelFactoryPlaces model=ModelFactoryPlaces.getInstance();
 		
 		
@@ -36,12 +36,15 @@ public class Main {
 
 	public static void GetFromWeb() {
 		
+		SDBUtils.emptySDBModel();
+		
 		GooglePlaceCaller x = new GooglePlaceCaller(10000);
-		//City r =  x.villeEntitiesFromWeb("Montpellier");
+		City r =  x.villeEntitiesFromWeb("Montpellier");
 		
+		r.toIndividual();
 		
-		System.out.println(x.locationFromcityName("Montpellier"));
-		
+		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
+		model.toConsole();
 		
 	}
 

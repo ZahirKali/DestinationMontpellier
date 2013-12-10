@@ -87,7 +87,7 @@ public class Entity implements Cloneable {
 	 * 
 	 * @return
 	 */
-	public Individual toIndividual() {
+	public Individual toIndividual(Individual city) {
 
 		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
 
@@ -105,6 +105,8 @@ public class Entity implements Cloneable {
 				m.addProperty(s.getPredicate(), id);
 			} else if (s.getPredicate().getLocalName().equals("address")) {
 				m.addProperty(s.getPredicate(), vicinity);
+			} else if (s.getPredicate().getLocalName().equals("city")) {
+				m.addProperty(s.getPredicate(), city);
 			} 
 			
 			/*
@@ -119,7 +121,7 @@ public class Entity implements Cloneable {
 		for (String type : types) {
 			OntClass ty = model.getClassByString(type);
 			if (ty != null)
-				ty.createIndividual(id);
+				ty.createIndividual(model.getNs_entity() +id);
 		}
 
 		return m;

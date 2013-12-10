@@ -31,7 +31,7 @@ public class GooglePlaceCaller {
 		//result contiens le contenu JSON
 		String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
 		
-		System.out.println(result);
+		//System.out.println(result);
 		
 		SearchResult r = new GsonBuilder().create().fromJson(result, SearchResult.class);
 		
@@ -69,6 +69,7 @@ public class GooglePlaceCaller {
 			String uri = serverurl + loc +type+ key;
 			String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
 			City ret = new GsonBuilder().create().fromJson(result, City.class);
+			ret.setIdentifier(cityName);
 			ret.setDetails(getCityInfo(cityName)); //les infos de la ville
 			System.out.println(uri);
 
