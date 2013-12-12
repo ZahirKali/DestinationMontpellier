@@ -6,7 +6,11 @@ import googleplaces.CityInfo;
 import googleplaces.Geometry;
 import googleplaces.SearchResult;
 
+import JenaUtils.GooglePlaceType;
+import JenaUtils.ModelFactoryPlaces;
+
 import com.google.gson.GsonBuilder;
+import com.hp.hpl.jena.ontology.OntClass;
 
 public class GooglePlaceCaller {
 
@@ -31,7 +35,7 @@ public class GooglePlaceCaller {
 		//result contiens le contenu JSON
 		String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
 		
-		//System.out.println(result);
+		System.out.println(result);
 		
 		SearchResult r = new GsonBuilder().create().fromJson(result, SearchResult.class);
 		
@@ -69,7 +73,8 @@ public class GooglePlaceCaller {
 			String uri = serverurl + loc +type+ key;
 			String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
 			City ret = new GsonBuilder().create().fromJson(result, City.class);
-			ret.setIdentifier(cityName);
+			
+			ret.setIdentifier(loc);
 			ret.setDetails(getCityInfo(cityName)); //les infos de la ville
 			System.out.println(uri);
 
@@ -93,34 +98,18 @@ public class GooglePlaceCaller {
 			return null;
 		}
 	}
-	
 	/****************************************************************************************************
-	 * RECHERCHE DES AEROPORTS
+	 * RECHERCHE PAR TYPE
 	 ****************************************************************************************************/
-	public City villeAirportsFromWeb(String cityName) {
-		type = "&types=airport";
-		return villeEntitiesFromWeb(cityName);
+	public City villeEntitiesFromWebByTypes(String type){
+		OntClass OC = ModelFactoryPlaces.getMPlaces().getClassByString(type);
+		String result = OC.toString();
+		return byType(result);
 	}
-	/****************************************************************************************************
-	 * RECHERCHE DES FOODs
-	 ****************************************************************************************************/
-	public City villeFoodsFromWeb(String cityName) {
-		type = "&types=food";
-		return villeEntitiesFromWeb(cityName);
-	}
-	/****************************************************************************************************
-	 * RECHERCHE DES MUSEUM
-	 ****************************************************************************************************/
-	public City villeMuseumsFromWeb(String cityName) {
-		type = "&types=museum";
-		return villeEntitiesFromWeb(cityName);
+
+	private City byType(String typeName) {
+		type = "&types="+typeName;
+		return villeEntitiesFromWeb(typeName);
 	}
 	
-	/****************************************************************************************************
-	 * RECHERCHE DES LODGING
-	 ****************************************************************************************************/
-	public City villeLodgingsFromWeb(String cityName) {
-		type = "&types=lodging";
-		return villeEntitiesFromWeb(cityName);
-	}
 }

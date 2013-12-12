@@ -95,7 +95,7 @@ public class Entity implements Cloneable {
 				model.getNs_entity() + id);
 
 		Iterator<Statement> stmt = model.getEntity().listProperties();
-
+		
 		while (stmt.hasNext()) {
 			Statement s = stmt.next();
 
@@ -110,7 +110,7 @@ public class Entity implements Cloneable {
 			} 
 			
 			/*
-			 * A Modifier
+			 * A Modifier car elle n'est âs dans les ^properties
 			 */
 			else if (s.getPredicate().getLocalName().equals("aPourLocation")) {
 				Individual loca = geometry.toIndividual(id);
@@ -133,7 +133,6 @@ public class Entity implements Cloneable {
 	}
 
 	public static Entity fromIndivdual(Resource ressource) {
-
 		return null;
 	}
 }

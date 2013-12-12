@@ -3,10 +3,6 @@ package JenaUtils;
 import googleplaces.City;
 import googleplaces.Entity;
 import googleplaces.Location;
-import googleplaces.types.Airport;
-import googleplaces.types.Food;
-import googleplaces.types.Lodging;
-import googleplaces.types.Museum;
 
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -70,72 +66,6 @@ public class SDBUtils {
 		}
 	}
 
-	/****************************************************
-	 * INSERTION DES DONNEES DANS LE MODEL
-	 ****************************************************/
-//	public static void insertEntitiesIntoModel(City city) {
-//		insertCityIntoModel(city);  
-//		for (Entity ent : city.getResults()) {
-//			if (ent.getTypes().contains("food")) {
-//				ent  = new Food();
-//				insertFoodIntoModel((Food) ent);
-//			}
-//			if (ent.getTypes().contains("airport")) {
-//				ent = new Airport();
-//				insertAirportIntoModel((Airport) ent);
-//			}
-//			if (ent.getTypes().contains("lodging")) {
-//				ent = new Lodging();
-//				insertLodgingIntoModel((Lodging) ent);
-//			}
-//			if (ent.getTypes().contains("museum")) {
-//				ent = new Museum();
-//				insertMuseumIntoModel((Museum) ent);
-//			}
-//		}
-//	}
-
-//	private static void insertCityIntoModel(City city) {
-//		Individual ind = ModelFactoryPlaces.getInstance().CreateCityInstance(
-//				city);
-//		ModelFactoryPlaces.getInstance().getModel().createIndividual(ind);
-//	}
-//
-//	private static void insertEntityIntoModel(Entity ent) {
-//		Individual ind = ModelFactoryPlaces.getInstance().CreateEntityInstance(
-//				ent);
-//		ModelFactoryPlaces.getInstance().getModel().createIndividual(ind);
-//	}
-//
-//	private static void insertLocationIntoModel(Location loc) {
-//		Individual ind = ModelFactoryPlaces.getInstance()
-//				.CreateLocationInstance(loc);
-//		ModelFactoryPlaces.getInstance().getModel().createIndividual(ind);
-//	}
-//
-//	private static void insertAirportIntoModel(Airport air) {
-//		Individual ind = ModelFactoryPlaces.getInstance()
-//				.CreateAireportInstance(air);
-//		ModelFactoryPlaces.getInstance().getModel().createIndividual(ind);
-//	}
-//
-//	private static void insertFoodIntoModel(Food food) {
-//		Individual ind = ModelFactoryPlaces.getInstance().CreateFoodInstance(
-//				food);
-//		ModelFactoryPlaces.getInstance().getModel().createIndividual(ind);
-//	}
-//
-//	private static void insertLodgingIntoModel(Lodging lod) {
-//		Individual ind = ModelFactoryPlaces.getInstance()
-//				.CreateLodgingInstance(lod);
-//		ModelFactoryPlaces.getInstance().getModel().createIndividual(ind);
-//	}
-//
-//	private static void insertMuseumIntoModel(Museum mus) {
-//		Individual ind = ModelFactoryPlaces.getInstance().createMuseumInstance(
-//				mus);
-//		ModelFactoryPlaces.getInstance().getModel().createIndividual(ind);
-//	}
 
 	public static void emptySDBModel() {
 		StoreDesc storeDesc = new StoreDesc(LayoutType.LayoutTripleNodesHash,

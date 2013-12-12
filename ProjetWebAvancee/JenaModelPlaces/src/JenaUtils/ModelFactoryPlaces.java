@@ -7,6 +7,7 @@ import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntProperty;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.vocabulary.XSD;
 
 public class ModelFactoryPlaces {
@@ -47,13 +48,6 @@ public class ModelFactoryPlaces {
 
 	}
 
-	public static ModelFactoryPlaces getInstance() {
-		if (singleton == null) {
-			singleton = new ModelFactoryPlaces();
-		}
-		return singleton;
-
-	}
 
 	/***************************************************************************************************************************
 	 * CREATION DU MODEL
@@ -76,11 +70,9 @@ public class ModelFactoryPlaces {
 				case city:
 					city = c;
 					break;
-
 				case transport:
 					transport = c;
 					break;
-
 				case entity:
 					entity = c;
 					break;
@@ -96,34 +88,29 @@ public class ModelFactoryPlaces {
 				case loisirs:
 					loisirs = c;
 					break;
-
 				case health:
 					health = c;
-					break;
-					
+					break;					
 				case money:
 					money = c;
-					break;
-					
+					break;					
 				case religion:
 					religion = c;
 					break;
-
 				case study:
 					study  = c;
-					break;
-					
+					break;					
 				default:
 					break;
 				}
 
-				// System.err.println(c.getLocalName());
-				// Iterator<Statement> ps = c.listProperties();
-				// while (ps.hasNext()) {
-				// Statement p = ps.next();
-				// System.out.println(p);
-				//
-				// }
+				 System.err.println(c.getLocalName());
+				 Iterator<Statement> ps = c.listProperties();
+				 while (ps.hasNext()) {
+				 Statement p = ps.next();
+				 System.out.println(p);
+				
+				 }
 			} while (cl.hasNext());
 		}
 
@@ -132,7 +119,6 @@ public class ModelFactoryPlaces {
 			System.out.println("Creating Ont Class ");
 			CreateOntClasses();
 		}
-
 	}
 
 	/**
@@ -284,43 +270,6 @@ public class ModelFactoryPlaces {
 		entity.addSubClass(study);
 	}
 
-	// /******************************************************************************************************************************
-	// * CREATION DES INSTANCES
-	// *****************************************************************************************************************************/
-	// public Individual CreateCityInstance(City v) {
-	// Individual vil = city.createIndividual(ns_city + v);
-	// return vil;
-	// }
-	//
-	// public Individual CreateEntityInstance(Entity e) {
-	// Individual ent = entity.createIndividual(ns_entity + e);
-	// return ent;
-	// }
-	//
-	// public Individual CreateLocationInstance(Location l) {
-	// Individual loc = location.createIndividual(ns_location + l);
-	// return loc;
-	// }
-	//
-	// public Individual CreateAireportInstance(Airport a) {
-	// Individual air = airport.createIndividual(ns_airport + a);
-	// return air;
-	// }
-	//
-	// public Individual CreateFoodInstance(Food f) {
-	// Individual foo = food.createIndividual(ns_food + f);
-	// return foo;
-	// }
-	//
-	// public Individual CreateLodgingInstance(Lodging l) {
-	// Individual lod = lodging.createIndividual(ns_lodging + l);
-	// return lod;
-	// }
-	//
-	// public Individual createMuseumInstance(Museum m) {
-	// Individual mus = museum.createIndividual(ns_museum + m);
-	// return mus;
-	// }
 
 	/******************************************************************************************************************************
 	 * AFFICHAGE DE L'ONTOLOGIE
