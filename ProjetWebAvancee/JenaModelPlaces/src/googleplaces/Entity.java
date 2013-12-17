@@ -112,7 +112,8 @@ public class Entity implements Cloneable {
 			/*
 			 * A Modifier car elle n'est âs dans les ^properties
 			 */
-			else if (s.getPredicate().getLocalName().equals("aPourLocation")) {
+			else
+				if (s.getPredicate().getLocalName().equals("aPourLocation")) {
 				Individual loca = geometry.toIndividual(id);
 				m.addProperty(s.getPredicate(), loca);
 			}

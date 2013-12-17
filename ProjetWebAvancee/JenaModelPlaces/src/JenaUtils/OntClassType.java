@@ -11,6 +11,7 @@ public enum OntClassType {
 	health,
 	money,
 	religion,
-	loisirs, study,
+	loisirs,
+	study,
 
 }

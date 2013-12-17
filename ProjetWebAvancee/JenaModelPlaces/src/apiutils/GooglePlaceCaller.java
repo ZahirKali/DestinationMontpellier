@@ -34,9 +34,6 @@ public class GooglePlaceCaller {
 		
 		//result contiens le contenu JSON
 		String result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
-		
-		System.out.println(result);
-		
 		SearchResult r = new GsonBuilder().create().fromJson(result, SearchResult.class);
 		
 		
@@ -75,7 +72,7 @@ public class GooglePlaceCaller {
 			City ret = new GsonBuilder().create().fromJson(result, City.class);
 			
 			ret.setIdentifier(loc);
-			ret.setDetails(getCityInfo(cityName)); //les infos de la ville
+			ret.setDetails(getCityInfo(cityName));
 			System.out.println(uri);
 
 			
@@ -101,15 +98,15 @@ public class GooglePlaceCaller {
 	/****************************************************************************************************
 	 * RECHERCHE PAR TYPE
 	 ****************************************************************************************************/
-	public City villeEntitiesFromWebByTypes(String type){
+	public City villeEntitiesFromWebByTypes(String cityName, String type){
 		OntClass OC = ModelFactoryPlaces.getMPlaces().getClassByString(type);
 		String result = OC.toString();
-		return byType(result);
+		return byType(cityName, type);
 	}
 
-	private City byType(String typeName) {
+	private City byType(String cityName, String typeName) {
 		type = "&types="+typeName;
-		return villeEntitiesFromWeb(typeName);
+		return villeEntitiesFromWeb(cityName);
 	}
 	
 }

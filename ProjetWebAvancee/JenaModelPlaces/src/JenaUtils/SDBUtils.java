@@ -26,45 +26,42 @@ import com.hp.hpl.jena.sdb.store.LayoutType;
 
 public class SDBUtils {
 	private static final String user = "root";
-	private static final String psw = "";// "021288";
+	private static final String psw = "";
 	private static Store store = null;
 
 	public static OntModel getModelSDB() {
 		/****************************************************
 		 * CONNEXION DE SDB A MySQL
 		 ****************************************************/
-		StoreDesc storeDesc = new StoreDesc(LayoutType.LayoutTripleNodesHash,
-				DatabaseType.MySQL);
+		StoreDesc storeDesc = new StoreDesc(LayoutType.LayoutTripleNodesHash, DatabaseType.MySQL);
 		JDBC.loadDriverMySQL();
 		String jdbcURL = "jdbc:mysql://localhost:3306/places_rdf";
 		SDBConnection conn = null;
 		try {
 			conn = new SDBConnection(jdbcURL, user, psw);
-			System.out.println("MODEL GETTING ..");
+			System.out.println("MODEL GETTING ...");
 		} catch (Exception e) {
 			System.out.println("CONNECTION FAILED !!");
 			e.printStackTrace();
 		}
 
 		store = SDBFactory.connectStore(conn, storeDesc);
-
 		Model model = SDBFactory.connectDefaultModel(store);
-		OntModel mdb = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM,
-				model);
+		OntModel mdb = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, model);
 
 		return mdb;
 	}
 
-	public void executeQuery(Query query) {
-		Dataset ds = DatasetStore.create(store);
-		QueryExecution qe = QueryExecutionFactory.create(query, ds);
-		try {
-			ResultSet rs = qe.execSelect();
-			ResultSetFormatter.out(rs);
-		} finally {
-			qe.close();
-		}
-	}
+//	public void executeQuery(Query query) {
+//		Dataset ds = DatasetStore.create(store);
+//		QueryExecution qe = QueryExecutionFactory.create(query, ds);
+//		try {
+//			ResultSet rs = qe.execSelect();
+//			ResultSetFormatter.out(rs);
+//		} finally {
+//			qe.close();
+//		}
+//	}
 
 
 	public static void emptySDBModel() {
@@ -93,11 +90,11 @@ public class SDBUtils {
 	 * Creation des tables
 	 */
 	public static void createSDBModel() {
-		StoreDesc storeDesc = new StoreDesc(LayoutType.LayoutTripleNodesHash,
-				DatabaseType.MySQL);
+		StoreDesc storeDesc = new StoreDesc(LayoutType.LayoutTripleNodesHash, DatabaseType.MySQL);
 		JDBC.loadDriverMySQL();
 		String jdbcURL = "jdbc:mysql://localhost:3306/places_rdf";
 		SDBConnection conn = null;
+		
 		try {
 			conn = new SDBConnection(jdbcURL, user, psw);
 			System.out.println("CREATE TABLES  ..");
@@ -108,7 +105,6 @@ public class SDBUtils {
 
 		Store store = SDBFactory.connectStore(conn, storeDesc);
 		store.getTableFormatter().create();
-
 		conn.close();
 	}
 

@@ -103,7 +103,7 @@ public class ModelFactoryPlaces {
 				default:
 					break;
 				}
-
+				
 				 System.err.println(c.getLocalName());
 				 Iterator<Statement> ps = c.listProperties();
 				 while (ps.hasNext()) {
@@ -145,7 +145,7 @@ public class ModelFactoryPlaces {
 		money = model.createClass(namespace + "money");
 		study = model.createClass(namespace + "study");
 
-		AddcityProperties();
+		AddCityProperties();
 		AddEntityProperty();
 		AddLocationProperty();
 		AddcityLocationProperty();
@@ -154,21 +154,7 @@ public class ModelFactoryPlaces {
 
 	}
 
-	/**
-	 * Create a Property
-	 * 
-	 * CreateProperty(entity, ns_entity, "name", "le nom de l'entity",
-	 * "Entity Name", XSD.xstring), ns_entity);
-	 * 
-	 * @param classe
-	 *            OntClass
-	 * @param namespace
-	 * @param propertyName
-	 * @param comment
-	 * @param label
-	 * @param resource
-	 * @return
-	 */
+
 	public OntProperty CreateProperty(OntClass classe, String namespace,
 			String propertyName, String comment, String label, Resource resource) {
 		OntProperty property = model
@@ -181,16 +167,6 @@ public class ModelFactoryPlaces {
 		return property;
 	}
 
-	/**
-	 * Create Object Property
-	 * 
-	 * @param propertyName
-	 * @param domaine
-	 * @param range
-	 * @param comment
-	 * @param label
-	 * @return
-	 */
 	public ObjectProperty CreateObjectProperty(String propertyName,
 			OntClass domaine, OntClass range, String comment, String label) {
 		ObjectProperty ObjProperty = model.createObjectProperty(namespace
@@ -202,7 +178,7 @@ public class ModelFactoryPlaces {
 		return ObjProperty;
 	}
 
-	void AddcityProperties() {
+	void AddCityProperties() {
 		city.addProperty(
 				CreateProperty(city, ns_city, "name", "Le nom de la city",
 						"city name", XSD.xstring), ns_city);
