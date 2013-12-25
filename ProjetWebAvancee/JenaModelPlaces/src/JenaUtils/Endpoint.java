@@ -1,13 +1,8 @@
 package JenaUtils;
-import java.util.Properties;
-
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFormatter;
-import com.hp.hpl.jena.sdb.store.DatasetStore;
 
 
 public class Endpoint{
@@ -23,6 +18,9 @@ public class Endpoint{
 			;
 	
 	public void sparqlQuery(String query){
+		
+		
+		
 		 QueryExecution x = QueryExecutionFactory.create(prefix + query, SDBUtils.getModelSDB());
 		 ResultSet results = x.execSelect();
 		 ResultSetFormatter.out(System.out, results);

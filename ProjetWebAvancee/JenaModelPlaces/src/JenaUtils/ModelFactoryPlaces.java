@@ -83,7 +83,7 @@ public class ModelFactoryPlaces {
 					location = c;
 					break;
 				case lodging:
-					location = c;
+					lodging = c;
 					break;
 				case loisirs:
 					loisirs = c;
@@ -320,6 +320,7 @@ public class ModelFactoryPlaces {
 		OntClass ret = null;
 		try {
 			GooglePlaceType name = GooglePlaceType.valueOf(googleplacetype);
+			System.out.println("Searching for " +name);
 			switch (name) {
 			case city:
 				ret = city;
@@ -406,6 +407,7 @@ public class ModelFactoryPlaces {
 			System.out.println(" ONT CLASS Dont EXIST : " + googleplacetype);
 		}
 
+		System.out.println(ret);
 		return ret;
 
 	}
