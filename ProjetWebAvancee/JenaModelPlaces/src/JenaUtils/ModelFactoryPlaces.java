@@ -2,10 +2,18 @@ package JenaUtils;
 
 import java.util.Iterator;
 
+import riotcmd.infer;
+
 import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntProperty;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.InfModel;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -15,6 +23,7 @@ import com.hp.hpl.jena.vocabulary.XSD;
 
 public class ModelFactoryPlaces {
 	private OntModel model;
+	private InfModel inf;
 	private String namespace = "http://localhost:9000/techweb#";
 	private String ns_city = "http://localhost:9000/techweb/city#";
 	private String ns_entity = "http://localhost:9000/techweb/entity#";
@@ -41,6 +50,10 @@ public class ModelFactoryPlaces {
 
 	public OntModel getModel() {
 		return model;
+	}
+	
+	public InfModel getInfModel(){
+		return inf;
 	}
 
 	public static ModelFactoryPlaces getMPlaces() {
@@ -122,6 +135,7 @@ public class ModelFactoryPlaces {
 			System.out.println("Creating Ont Class ");
 			CreateOntClasses();
 		}
+		infGeneration();
 	}
 
 	/**
@@ -149,10 +163,11 @@ public class ModelFactoryPlaces {
 		money = model.createClass(namespace + "money");
 		study = model.createClass(namespace + "study");
 
-	    InfModel inf = ModelFactory.createRDFSModel(model);
+	    
 
 		city = model.createClass(namespace + "city");
-		inf.add(city,OWL.equivalentClass,"http://dbpedia.org/ontology/City");
+		
+		
 		entity = model.createClass(namespace + "entity");
 		location = model.createClass(namespace + "location");
 
@@ -180,7 +195,8 @@ public class ModelFactoryPlaces {
 		AddcityLocationProperty();
 		AddEntityLocationProperty();
 		AddSubClasses();
-
+		
+		infGeneration();
 	}
 
 
@@ -281,6 +297,10 @@ public class ModelFactoryPlaces {
 	 *****************************************************************************************************************************/
 	public void toConsole() {
 		model.write(System.out, "RDF/XML-ABBREV");
+	}
+	
+	public void toConsoleInf() {
+		getInfModel().write(System.out, "RDF/XML-ABBREV");
 	}
 
 	/**
@@ -468,6 +488,32 @@ public class ModelFactoryPlaces {
 
 	public String getNamespace() {
 		return namespace;
+	}
+	
+	private void infGeneration(){
+		inf = ModelFactory.createRDFSModel(model);
+		inf.add(city,OWL.equivalentClass,"http://dbpedia.org/ontology/City");
+	}
+	
+	public void exec(){
+		String q ="PREFIX p: <http://localhost:9000/techweb/city#>"
+				+"PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+				+"PREFIX dbp:<http://dbpedia.org/ontology/>"
+				+ " select * where { ?o  ?s \"http://dbpedia.org/ontology/City\"}";
+		
+		Query q1 = QueryFactory.create(q);
+		QueryExecution qexec = QueryExecutionFactory.create(q1, getInfModel());
+		
+		try {
+		
+		ResultSet rs = qexec.execSelect() ;
+		ResultSetFormatter.out(System.out, rs, q1);
+		}
+		finally
+		{
+		  qexec.close() ;
+		}
+
 	}
 
 }
