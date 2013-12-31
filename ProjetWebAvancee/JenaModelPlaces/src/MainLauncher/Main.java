@@ -10,32 +10,32 @@ import apiutils.GooglePlaceCaller;
 
 
 public class Main {
+	static DbPediaConnect dbpc = null;
 	
 	public static void main(String[] args) {
-		Endpoint ep = new Endpoint();
-		String query ="select * where {"
-				+ "?s entity:id ?o }";
+		/*ENDPOINT*/
+//		Endpoint ep = new Endpoint();
+//		String query ="select * where {"
+//				+ "?s entity:id ?o }";
+//		ep.sparqlQuery(query);
 		
-		ep.sparqlQuery(query);
-		//CreateJenaModel();
-		DbPedia();
+		/* DBPEDIA*/
+		
 	}
 	
 	public static void DbPedia() {
-		DbPediaConnect x = new DbPediaConnect();
-		x.setSameAs(null);
+		dbpc = new  DbPediaConnect();
 	}
 
 	public static void CreateJenaModel() {
 		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
-		model.toConsole();
 	}
 
-	public static void GetFromWeb(String city) {
+	public static City GetFromWeb(String city) {
 		GooglePlaceCaller x = new GooglePlaceCaller(10000);
-		City r =  x.villeEntitiesFromWeb(city);
-		r.toIndividual();
-		ModelFactoryPlaces.getMPlaces().toConsole();
+		City result =  x.villeEntitiesFromWeb(city);
+		result.toIndividual();
+		return result;
 	}
 	
 	public static void GetFromWebByType(String city, String type) {

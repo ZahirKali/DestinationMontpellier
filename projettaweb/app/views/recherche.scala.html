@@ -1,0 +1,32 @@
+@(     
+		message: String,
+        v: models.Ville,
+        nom: String
+    )
+
+@main("liste des etablissements touristiques de la ville") {
+	<supertag>
+        <h1>Ville de @nom</h1>
+        <h6>@message</h6>
+
+        
+        
+        <!-- Liste des etablissements dans la ville -->
+        <ul>
+            @for(ent <- v.getResults() ) {
+                <li>
+                <img src="@ent.getIcon()" alt=""><h3><a href="/" name="type">@ent.getName()</a></h3>
+               Adresse : @ent.getVicinity()
+                </li>
+                
+            <!--  @for(str <- ent.getTypes()) {
+                	 @str
+                } -->
+            }
+        </ul>   
+      <!--  <a href="/">Nouvelle rechercher</a>-->
+        <form method="get" action="/">
+        <button class="btn" type="submit">Lancer une Nouvelle Recherche</button>
+    </form>
+        
+    }

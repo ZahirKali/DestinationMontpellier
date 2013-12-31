@@ -11,10 +11,7 @@ import java.net.URLEncoder;
 
 public abstract class ApiCaller {
 
-	public static String cUrl(URL url) {
-		System.err.println(url);
-		
-		
+	public static String cUrl(URL url) {		
 		InputStream is = null;
 		try {
 			is = url.openConnection().getInputStream();
@@ -35,10 +32,6 @@ public abstract class ApiCaller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		
-		System.err.println(result);
-		
 		return result;
 	}
 

@@ -112,4 +112,15 @@ public class City {
 			e.toIndividual(cityI);
 		}
 	}
+		public String getCityName(){
+		return getDetails().getResults().get(0).getAddress_components().get(0).getShort_name();
+	}
+	
+	public String getCityLat(CityInfo city){
+		return getDetails().getResults().get(0).getGeometry().getLocation().getLat().toString();
+	}
+	
+	public String getCityLong(CityInfo city){
+		return getDetails().getResults().get(0).getGeometry().getLocation().getLng().toString();
+	}
 }

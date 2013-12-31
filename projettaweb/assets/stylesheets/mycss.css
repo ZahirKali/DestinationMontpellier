@@ -1,0 +1,23 @@
+@h1BckGrdColor : blue;
+@h1ForeColor : white;
+
+@h2BckGrdColor : gray;
+@h2ForeColor : whitesmoke;
+
+supertag {
+    h1 {
+        color: @h1ForeColor;
+        background-color: @h1BckGrdColor;
+        padding-left: 5px;
+    }
+    h2 {
+        color : @h2ForeColor;
+        background-color: @h2BckGrdColor;
+        padding-left: 5px;
+        margin-bottom: 5px;
+    }
+
+    input {
+        background-color: yellow
+    }
+}

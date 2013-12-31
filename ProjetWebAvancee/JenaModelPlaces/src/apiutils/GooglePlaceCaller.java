@@ -73,13 +73,9 @@ public class GooglePlaceCaller {
 			
 			ret.setIdentifier(loc);
 			ret.setDetails(getCityInfo(cityName));
-			System.out.println(uri);
 
-			
 			while (ret.getNext_page_token()!=null){
-				
 				uri = nextpage + ret.getNext_page_token() +key;
-				System.out.println(uri);
 
 				result = ApiCaller.cUrl(ApiCaller.getUrlFromString(uri));
 				ret.Append(new GsonBuilder().create().fromJson(result, City.class));

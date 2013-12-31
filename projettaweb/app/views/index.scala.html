@@ -1,0 +1,26 @@
+@(     
+		message: String
+	
+    )
+
+@main("liste des etablissements touristique de la ville") {
+	<supertag>
+        <h2>Choisisez une Ville pour decouvrir ses lieux touristiques </h2>
+        <h6>@message</h6>
+
+        <!-- Formulaire de saisie : villes -->
+        <fieldset>
+        <h2>Nouvelle recherche</h2>
+            <!--<form method="POST" action="@routes.Application.recherche()">-->
+            <form method="post" action="/ville/recherche">
+                <input type="text" name="nom" >
+                <button class="btn" type="submit">Rechercher</button>
+            </form>
+        </fieldset>
+
+        
+        
+       
+
+        
+    }

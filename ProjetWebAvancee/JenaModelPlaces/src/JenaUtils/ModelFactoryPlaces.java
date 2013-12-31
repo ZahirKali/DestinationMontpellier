@@ -104,13 +104,13 @@ public class ModelFactoryPlaces {
 					break;
 				}
 				
-				 System.err.println(c.getLocalName());
-				 Iterator<Statement> ps = c.listProperties();
-				 while (ps.hasNext()) {
-				 Statement p = ps.next();
-				 System.out.println(p);
-				
-				 }
+//				 System.err.println(c.getLocalName());
+//				 Iterator<Statement> ps = c.listProperties();
+//				 while (ps.hasNext()) {
+//				 Statement p = ps.next();
+//				 System.out.println(p);
+//				
+//				 }
 			} while (cl.hasNext());
 		}
 
@@ -320,7 +320,6 @@ public class ModelFactoryPlaces {
 		OntClass ret = null;
 		try {
 			GooglePlaceType name = GooglePlaceType.valueOf(googleplacetype);
-			System.out.println("Searching for " +name);
 			switch (name) {
 			case city:
 				ret = city;
@@ -403,13 +402,9 @@ public class ModelFactoryPlaces {
 				ret = null;
 			}
 
-		} catch (Exception e) {
-			System.out.println(" ONT CLASS Dont EXIST : " + googleplacetype);
-		}
-
-		System.out.println(ret);
+		} finally{
 		return ret;
-
+		}
 	}
 
 	/**
