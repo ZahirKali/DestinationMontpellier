@@ -13,13 +13,19 @@ public class Main {
 	static DbPediaConnect dbpc = null;
 	
 	public static void main(String[] args) {
-		/*ENDPOINT*/
-//		Endpoint ep = new Endpoint();
-//		String query ="select * where {"
-//				+ "?s entity:id ?o }";
-//		ep.sparqlQuery(query);
+		//String pr="PREFIX P : <http://localhost:9000/techweb/entity#>";
+		Endpoint ep = new Endpoint();
+		String query ="PREFIX p: <http://localhost:9000/techweb/city#>"
+				+ " select ?s  ?o where {?s p:name ?o }";
 		
-		/* DBPEDIA*/
+		String q2 = "PREFIX p: <http://localhost:9000/techweb/city#>"
+				+"PREFIX owl: <http://www.w3.org/2002/07/owl#>"
+				+"PREFIX dbp: <http://dbpedia.org/ontology/>"
+				+"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+				+"select   ?o where {p:name rdfs:comment ?o }";
+		
+		ep.sparqlQuery(q2);
+
 		
 	}
 	
@@ -29,6 +35,7 @@ public class Main {
 
 	public static void CreateJenaModel() {
 		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
+		model.toConsole();
 	}
 
 	public static City GetFromWeb(String city) {

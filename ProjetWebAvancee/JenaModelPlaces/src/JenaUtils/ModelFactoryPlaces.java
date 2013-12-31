@@ -6,8 +6,11 @@ import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntProperty;
+import com.hp.hpl.jena.rdf.model.InfModel;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.XSD;
 
 public class ModelFactoryPlaces {
@@ -83,7 +86,7 @@ public class ModelFactoryPlaces {
 					location = c;
 					break;
 				case lodging:
-					lodging = c;
+					location = c;
 					break;
 				case loisirs:
 					loisirs = c;
@@ -133,6 +136,7 @@ public class ModelFactoryPlaces {
 
 
 		city = model.createClass(namespace + "city");
+		
 		entity = model.createClass(namespace + "entity");
 		location = model.createClass(namespace + "location");
 
@@ -145,6 +149,31 @@ public class ModelFactoryPlaces {
 		money = model.createClass(namespace + "money");
 		study = model.createClass(namespace + "study");
 
+	    InfModel inf = ModelFactory.createRDFSModel(model);
+
+		city = model.createClass(namespace + "city");
+		inf.add(city,OWL.equivalentClass,"http://dbpedia.org/ontology/City");
+		entity = model.createClass(namespace + "entity");
+		location = model.createClass(namespace + "location");
+
+		//model.add(location,OWL.equivalentClass,"http://dbpedia.org/ontology/Place");
+
+		transport = model.createClass(namespace + "transport");
+		food = model.createClass(namespace + "food");
+		lodging = model.createClass(namespace + "lodging");
+		
+		loisirs = model.createClass(namespace + "loisirs");
+		//model.add(loisirs,OWL.equivalentClass,"http://dbpedia.org/ontology/loisirs");
+		religion = model.createClass(namespace + "religion");
+		//model.add(religion,OWL.equivalentClass,"http://dbpedia.org/ontology/religion");
+		health = model.createClass(namespace + "health");
+		//model.add(health,OWL.equivalentClass,"http://dbpedia.org/ontology/health");
+		money = model.createClass(namespace + "money");
+		//model.add(money,OWL.equivalentClass,"http://dbpedia.org/ontology/money");
+		study = model.createClass(namespace + "study");
+		//model.add(study,OWL.equivalentClass,"http://dbpedia.org/ontology/study");
+		
+		
 		AddCityProperties();
 		AddEntityProperty();
 		AddLocationProperty();
@@ -209,7 +238,7 @@ public class ModelFactoryPlaces {
 				ns_entity);
 		entity.addProperty(
 				CreateProperty(entity, ns_entity, "address",
-						"l'adresse de l'entitÃ©", "Entity Adress", XSD.xstring),
+						"l'adresse de l'entité", "Entity Adress", XSD.xstring),
 				ns_entity);
 	}
 
@@ -231,7 +260,7 @@ public class ModelFactoryPlaces {
 
 	void AddEntityLocationProperty() {
 		CreateObjectProperty("aPourLocation", entity, location,
-				"Localisation d'une entitÃ©", "Localisation of an entity");
+				"Localisation d'une entité", "Localisation of an entity");
 	}
 
 	void AddSubClasses() {
@@ -402,9 +431,12 @@ public class ModelFactoryPlaces {
 				ret = null;
 			}
 
-		} finally{
-		return ret;
+		} catch (Exception e) {
+			System.out.println(" ONT CLASS Dont EXIST : " + googleplacetype);
 		}
+
+		return ret;
+
 	}
 
 	/**
