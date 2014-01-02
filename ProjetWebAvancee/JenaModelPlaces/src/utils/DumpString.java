@@ -1,4 +1,4 @@
-package JenaUtils;
+package utils;
 
 import java.lang.reflect.Field;
 

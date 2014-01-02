@@ -11,7 +11,10 @@ import java.net.URLEncoder;
 
 public abstract class ApiCaller {
 
-	public static String cUrl(URL url) {		
+	public static String cUrl(URL url) {
+		
+		System.out.println(url);
+		
 		InputStream is = null;
 		try {
 			is = url.openConnection().getInputStream();
@@ -19,7 +22,12 @@ public abstract class ApiCaller {
 			e.printStackTrace();
 		}
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new InputStreamReader(is,  "UTF8"));
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
 
 		String result = "";
 		String line = null;
@@ -32,6 +40,7 @@ public abstract class ApiCaller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.err.println(result);
 		return result;
 	}
 
@@ -53,7 +62,6 @@ public abstract class ApiCaller {
 		try {
 			res = URLEncoder.encode(str, "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return res;

@@ -3,13 +3,13 @@ package googleplaces;
 import java.util.Iterator;
 import java.util.List;
 
-import JenaUtils.DumpString;
+import utils.DumpString;
 import JenaUtils.ModelFactoryPlaces;
 
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
+import com.hp.hpl.jena.ontology.OntProperty;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
 
 public class Entity implements Cloneable {
 	protected Geometry geometry;
@@ -91,48 +91,54 @@ public class Entity implements Cloneable {
 
 		ModelFactoryPlaces model = ModelFactoryPlaces.getMPlaces();
 
+		//
+		// Create Entity Individual
+		//
+
 		Individual m = model.getEntity().createIndividual(
 				model.getNs_entity() + id);
 
-		Iterator<Statement> stmt = model.getEntity().listProperties();
-		
-		while (stmt.hasNext()) {
-			Statement s = stmt.next();
+		//
+		// set Entity's Individual Properties
+		//
+		Iterator<OntProperty> stmt = model.getEntity().listDeclaredProperties();
 
-			if (s.getPredicate().getLocalName().equals("name")) {
-				m.addProperty(s.getPredicate(), name);
-			} else if (s.getPredicate().getLocalName().equals("id")) {
-				m.addProperty(s.getPredicate(), id);
-			} else if (s.getPredicate().getLocalName().equals("address")) {
-				m.addProperty(s.getPredicate(), vicinity);
-			} else if (s.getPredicate().getLocalName().equals("city")) {
-				m.addProperty(s.getPredicate(), city);
-			} 
-			
-			/*
-			 * A Modifier car elle n'est âs dans les ^properties
-			 */
-			else
-				if (s.getPredicate().getLocalName().equals("aPourLocation")) {
+		while (stmt.hasNext()) {
+			OntProperty currentProperty = stmt.next();
+
+			if (currentProperty.getLocalName().equals("name")) {
+				m.addProperty(currentProperty, name);
+			} else if (currentProperty.getLocalName().equals("id")) {
+				m.addProperty(currentProperty, id);
+			} else if (currentProperty.getLocalName().equals("address")) {
+				m.addProperty(currentProperty, vicinity);
+			} else if (currentProperty.getLocalName().equals("city")) {
+				m.addProperty(currentProperty, city);
+			} else if (currentProperty.getLocalName().equals("aPourLocation")) {
 				Individual loca = geometry.toIndividual(id);
-				m.addProperty(s.getPredicate(), loca);
+				m.addProperty(currentProperty, loca);
 			}
 		}
 
+		//
+		// Create Types SubClass Of
+		//
 		for (String type : types) {
 			OntClass ty = model.getClassByString(type);
-			if (ty != null)
-				ty.createIndividual(model.getNs_entity() +id);
+			if (ty != null) {
+				ty.createIndividual(model.getNs_entity() + id);
+			}
 		}
 
 		return m;
 	}
 
-	@Override
-	protected Object clone() throws CloneNotSupportedException {
-		return super.clone();
-	}
-
+	
+	/**
+	 * 
+	 * @param ressource
+	 * @return
+	 */
 	public static Entity fromIndivdual(Resource ressource) {
 		return null;
 	}

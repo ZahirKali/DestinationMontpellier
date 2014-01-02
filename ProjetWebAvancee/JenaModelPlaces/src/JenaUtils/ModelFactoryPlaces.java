@@ -1,24 +1,19 @@
 package JenaUtils;
 
+import googleplaces.GooglePlaceType;
+
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 
-import riotcmd.infer;
+import utils.OntClassType;
 
 import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntProperty;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.InfModel;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.XSD;
 
 public class ModelFactoryPlaces {
@@ -51,8 +46,8 @@ public class ModelFactoryPlaces {
 	public OntModel getModel() {
 		return model;
 	}
-	
-	public InfModel getInfModel(){
+
+	public InfModel getInfModel() {
 		return inf;
 	}
 
@@ -64,10 +59,9 @@ public class ModelFactoryPlaces {
 
 	}
 
-
-	/***************************************************************************************************************************
-	 * CREATION DU MODEL
-	 * *************************************************************************************************************************/
+	/**
+	 * Creation of Ontologie if does not exist
+	 */
 	public void CreateIfNotExistOntologie() {
 
 		model = SDBUtils.getModelSDB();
@@ -106,27 +100,27 @@ public class ModelFactoryPlaces {
 					break;
 				case health:
 					health = c;
-					break;					
+					break;
 				case money:
 					money = c;
-					break;					
+					break;
 				case religion:
 					religion = c;
 					break;
 				case study:
-					study  = c;
-					break;					
+					study = c;
+					break;
 				default:
 					break;
 				}
-				
-//				 System.err.println(c.getLocalName());
-//				 Iterator<Statement> ps = c.listProperties();
-//				 while (ps.hasNext()) {
-//				 Statement p = ps.next();
-//				 System.out.println(p);
-//				
-//				 }
+
+				System.err.println(c.getLocalName());
+				Iterator<OntProperty> pso = c.listDeclaredProperties();
+				while (pso.hasNext()) {
+					OntProperty p = pso.next();
+					System.out.println(p.getLocalName());
+				}
+
 			} while (cl.hasNext());
 		}
 
@@ -135,7 +129,7 @@ public class ModelFactoryPlaces {
 			System.out.println("Creating Ont Class ");
 			CreateOntClasses();
 		}
-		infGeneration();
+		// infGeneration();
 	}
 
 	/**
@@ -148,9 +142,8 @@ public class ModelFactoryPlaces {
 		model.setNsPrefix("city", ns_city);
 		model.setNsPrefix("entity", ns_entity);
 
-
 		city = model.createClass(namespace + "city");
-		
+
 		entity = model.createClass(namespace + "entity");
 		location = model.createClass(namespace + "location");
 
@@ -163,42 +156,37 @@ public class ModelFactoryPlaces {
 		money = model.createClass(namespace + "money");
 		study = model.createClass(namespace + "study");
 
-	    
-
 		city = model.createClass(namespace + "city");
-		
-		
+
 		entity = model.createClass(namespace + "entity");
 		location = model.createClass(namespace + "location");
 
-		//model.add(location,OWL.equivalentClass,"http://dbpedia.org/ontology/Place");
+		// model.add(location,OWL.equivalentClass,"http://dbpedia.org/ontology/Place");
 
 		transport = model.createClass(namespace + "transport");
 		food = model.createClass(namespace + "food");
 		lodging = model.createClass(namespace + "lodging");
-		
+
 		loisirs = model.createClass(namespace + "loisirs");
-		//model.add(loisirs,OWL.equivalentClass,"http://dbpedia.org/ontology/loisirs");
+		// model.add(loisirs,OWL.equivalentClass,"http://dbpedia.org/ontology/loisirs");
 		religion = model.createClass(namespace + "religion");
-		//model.add(religion,OWL.equivalentClass,"http://dbpedia.org/ontology/religion");
+		// model.add(religion,OWL.equivalentClass,"http://dbpedia.org/ontology/religion");
 		health = model.createClass(namespace + "health");
-		//model.add(health,OWL.equivalentClass,"http://dbpedia.org/ontology/health");
+		// model.add(health,OWL.equivalentClass,"http://dbpedia.org/ontology/health");
 		money = model.createClass(namespace + "money");
-		//model.add(money,OWL.equivalentClass,"http://dbpedia.org/ontology/money");
+		// model.add(money,OWL.equivalentClass,"http://dbpedia.org/ontology/money");
 		study = model.createClass(namespace + "study");
-		//model.add(study,OWL.equivalentClass,"http://dbpedia.org/ontology/study");
-		
-		
+		// model.add(study,OWL.equivalentClass,"http://dbpedia.org/ontology/study");
+
 		AddCityProperties();
 		AddEntityProperty();
 		AddLocationProperty();
 		AddcityLocationProperty();
 		AddEntityLocationProperty();
 		AddSubClasses();
-		
-		infGeneration();
-	}
 
+		// infGeneration();
+	}
 
 	public OntProperty CreateProperty(OntClass classe, String namespace,
 			String propertyName, String comment, String label, Resource resource) {
@@ -236,7 +224,6 @@ public class ModelFactoryPlaces {
 						"la localisation de la city ", "city localisation",
 						location), ns_city);
 
-		
 	}
 
 	void AddEntityProperty() {
@@ -250,8 +237,7 @@ public class ModelFactoryPlaces {
 				ns_entity);
 		entity.addProperty(
 				CreateProperty(entity, ns_entity, "city",
-						"la city de l'entity", "Entity city", city),
-				ns_entity);
+						"la city de l'entity", "Entity city", city), ns_entity);
 		entity.addProperty(
 				CreateProperty(entity, ns_entity, "address",
 						"l'adresse de l'entité", "Entity Adress", XSD.xstring),
@@ -291,14 +277,17 @@ public class ModelFactoryPlaces {
 		entity.addSubClass(study);
 	}
 
-
 	/******************************************************************************************************************************
 	 * AFFICHAGE DE L'ONTOLOGIE
 	 *****************************************************************************************************************************/
 	public void toConsole() {
-		model.write(System.out, "RDF/XML-ABBREV");
+		try {
+			model.write(new OutputStreamWriter(System.out,"UTF8"), "RDF/XML-ABBREV");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void toConsoleInf() {
 		getInfModel().write(System.out, "RDF/XML-ABBREV");
 	}
@@ -489,32 +478,31 @@ public class ModelFactoryPlaces {
 	public String getNamespace() {
 		return namespace;
 	}
-	
-	private void infGeneration(){
-		inf = ModelFactory.createRDFSModel(model);
-		inf.add(city,OWL.equivalentClass,"http://dbpedia.org/ontology/City");
-	}
-	
-	public void exec(){
-		String q ="PREFIX p: <http://localhost:9000/techweb/city#>"
-				+"PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-				+"PREFIX dbp:<http://dbpedia.org/ontology/>"
-				+ " select * where { ?o  ?s \"http://dbpedia.org/ontology/City\"}";
-		
-		Query q1 = QueryFactory.create(q);
-		QueryExecution qexec = QueryExecutionFactory.create(q1, getInfModel());
-		
-		try {
-		
-		ResultSet rs = qexec.execSelect() ;
-		ResultSetFormatter.out(System.out, rs, q1);
-		}
-		finally
-		{
-		  qexec.close() ;
-		}
 
-	}
+	// private void infGeneration(){
+	// inf = ModelFactory.createRDFSModel(model);
+	// inf.add(city,OWL.equivalentClass,"http://dbpedia.org/ontology/City");
+	// }
+	//
+	// public void exec(){
+	// String q ="PREFIX p: <http://localhost:9000/techweb/city#>"
+	// +"PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+	// +"PREFIX dbp:<http://dbpedia.org/ontology/>"
+	// + " select * where { ?o  ?s \"http://dbpedia.org/ontology/City\"}";
+	//
+	// Query q1 = QueryFactory.create(q);
+	// QueryExecution qexec = QueryExecutionFactory.create(q1, getInfModel());
+	//
+	// try {
+	//
+	// ResultSet rs = qexec.execSelect() ;
+	// ResultSetFormatter.out(System.out, rs, q1);
+	// }
+	// finally
+	// {
+	// qexec.close() ;
+	// }
+	//
+	// }
 
 }
-

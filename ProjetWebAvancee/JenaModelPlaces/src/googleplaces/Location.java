@@ -2,6 +2,8 @@ package googleplaces;
 
 import java.util.Iterator;
 
+import utils.DumpString;
+
 import JenaUtils.ModelFactoryPlaces;
 
 import com.hp.hpl.jena.ontology.Individual;
@@ -71,6 +73,12 @@ public class Location {
 
 		return locationI;
 
+	}
+	
+	
+	@Override
+	public String toString() {
+		return DumpString.dumpString(this);
 	}
 
 }

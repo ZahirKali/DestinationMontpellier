@@ -1,4 +1,4 @@
-package JenaUtils;
+package utils;
 
 
 public enum OntClassType {

@@ -1,23 +1,65 @@
 package googleplaces;
 
-import googleplaces.CityInfo.adr_comp;
-import googleplaces.CityInfo.component;
+import googleplaces.SearchResult.Address_component;
+import googleplaces.SearchResult.CityInfoResult;
 
+import interconnexion.DbPediaConnexion;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.rdf.model.Statement;
+import utils.DumpString;
 
-import JenaUtils.DumpString;
 import JenaUtils.ModelFactoryPlaces;
+
+import com.hp.hpl.jena.ontology.Individual;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
 
 public class City {
 	private String next_page_token;
-	private List<Entity> results;
+	private List<Entity> results = new ArrayList<Entity>();
+
 	private String status;
-	private CityInfo infos;
 	private String Identifier;
+	private String locationSearch = "";
+
+	private String shortName = "";
+	private String address = "";
+	private Location location;
+
+	public String getLocationSearch() {
+		return locationSearch;
+	}
+
+	public void setLocationSearch(String locationSearch) {
+		this.locationSearch = locationSearch;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public String getLatitude() {
+		return location.getLat().toString();
+	}
+
+	public String getLogitude() {
+		return location.getLng().toString();
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
 
 	public void setIdentifier(String identifier) {
 		Identifier = identifier;
@@ -51,19 +93,10 @@ public class City {
 		this.status = status;
 	}
 
-	public void setDetails(CityInfo inf) {
-		this.infos = inf;
-	}
-
-	public CityInfo getDetails() {
-		return this.infos;
-	}
-
 	public void Append(City other) {
 		for (Entity ent : other.getResults()) {
 			results.add(ent);
 		}
-
 		next_page_token = other.getNext_page_token();
 	}
 
@@ -77,9 +110,8 @@ public class City {
 	 */
 	public void toIndividual() {
 
-		component comp = infos.getResults().get(0);
-		if (comp == null) {
-			System.out.println("No Result for Ville");
+		if (Identifier.equals("")) {
+			System.err.println(" No Ville Selected");
 			return;
 		}
 
@@ -93,34 +125,87 @@ public class City {
 		while (stmt.hasNext()) {
 			Statement s = stmt.next();
 
-			adr_comp address = comp.getAddress_components().get(0);
-
 			if (s.getPredicate().getLocalName().equals("name")) {
 				if (address != null)
-					cityI.addProperty(s.getPredicate(), comp
-							.getAddress_components().get(0).getLong_name());
+					cityI.addProperty(s.getPredicate(), getShortName());
 			} else if (s.getPredicate().getLocalName()
 					.equals("formatted_addres")) {
-				cityI.addProperty(s.getPredicate(), comp.getFormatted_address());
+				cityI.addProperty(s.getPredicate(), getAddress());
 			} else if (s.getPredicate().getLocalName().equals("location")) {
-				cityI.addProperty(s.getPredicate(), comp.getGeometry()
-						.getLocation().toIndividualCity(Identifier));
+				cityI.addProperty(s.getPredicate(), location.toIndividualCity(Identifier));
 			}
 		}
-		
+
+		//
+		// Create Entity of ville
+		//
 		for (Entity e : results) {
 			e.toIndividual(cityI);
 		}
+		
+		
+		//
+		// Interconnexion
+		//
+		Resource dbpediaResource = DbPediaConnexion.getSameAsFromDpPedia(this);
+		if(dbpediaResource != null){
+			cityI.setSameAs(dbpediaResource);
+		}
 	}
-		public String getCityName(){
-		return getDetails().getResults().get(0).getAddress_components().get(0).getShort_name();
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
-	
-	public String getCityLat(CityInfo city){
-		return getDetails().getResults().get(0).getGeometry().getLocation().getLat().toString();
-	}
-	
-	public String getCityLong(CityInfo city){
-		return getDetails().getResults().get(0).getGeometry().getLocation().getLng().toString();
+
+	/**
+	 * Create City From Search Result
+	 * 
+	 * @param cityInfo
+	 * @return
+	 */
+	public static City From(SearchResult cityInfo) {
+		City city = new City();
+
+		//
+		// If Request is Valide and there is a result
+		//
+		if (cityInfo.isOk() && cityInfo.getResults().size() > 0) {
+			CityInfoResult infos = cityInfo.getResults().get(0);
+
+			//
+			// Set Identifier
+			//
+			String identifier = "";
+			for (Address_component add : infos.getAddress_components()) {
+				identifier += add.getLong_name() + "$";
+			}
+			identifier = identifier.substring(0, identifier.length() - 1);
+			city.setIdentifier(identifier);
+
+			//
+			// set City Info Properties
+			//
+			if (infos.getAddress_components().size() > 0) {
+				city.setShortName(infos.getAddress_components().get(0)
+						.getLong_name());
+			}
+
+			//
+			// Set Location
+			//
+			if (infos.getGeometry() != null) {
+				if (infos.getGeometry().getLocation() != null) {
+					city.setLocation(infos.getGeometry().getLocation());
+				}
+			}
+			city.setAddress(infos.getFormatted_address());
+
+			//
+			// set Location Search
+			//
+			city.setLocationSearch(city.getLatitude() + ","
+					+ city.getLogitude());
+		}
+		return city;
 	}
 }

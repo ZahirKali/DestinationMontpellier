@@ -1,4 +1,4 @@
-package JenaUtils;
+package googleplaces;
 
 public enum GooglePlaceType {
 	city,
