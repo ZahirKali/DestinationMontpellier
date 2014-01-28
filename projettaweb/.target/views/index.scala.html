@@ -3,8 +3,21 @@
 	
     )
 
-@main("liste des etablissements touristique de la ville") {
+@main("PROJET TAWEB 2013-2014 PRESENTE PAR MOJDI - SOFIANE - ELIMANE") {
+
 	<supertag>
+
+	<div align="right">
+	
+	<form class="navbar-form navbar-left" role="search"  method="get" action="/ville/spaql">
+	
+	<button type="submit" class="btn btn-primary" name="sparql">Requete SPARQL</button>
+	</form>
+    
+		
+	</dv>
+	
+	<div align="center" class="alignement">
         <h2>Choisisez une Ville pour decouvrir ses lieux touristiques </h2>
         <h6>@message</h6>
 
@@ -12,15 +25,30 @@
         <fieldset>
         <h2>Nouvelle recherche</h2>
             <!--<form method="POST" action="@routes.Application.recherche()">-->
-            <form method="post" action="/ville/recherche">
-                <input type="text" name="nom" >
-                <button class="btn" type="submit">Rechercher</button>
-            </form>
+            
+            
+            <form class="navbar-form navbar-left" role="search"  method="post" action="/ville/recherche">
+            <div class="form-group">
+            <p>
+              <input type="text" class="form-control" placeholder="Search"  name="nom">
+              </p>
+              </div>
+              <button type="submit" class="btn btn-primary" name="nom">Rechercher</button>
+           
+          </form>
+            
+            
+            
+      <!--      <form method="post" action="/ville/recherche">
+            <p>
+                <input type="text" class="form-control" placeholder="Text input"  name="nom"> </p>
+                <p>
+                <button type="submit" class="btn btn-primary" name="nom">Rechercher</button>
+                </p>
+                 <button class="btn btn-primary" type="submit">Rechercher</button>
+            </form> -->
+            </div>
         </fieldset>
-
-        
-        
-       
 
         
     }

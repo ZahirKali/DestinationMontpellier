@@ -1,0 +1,100 @@
+@(     
+		message: String,
+        ville: models.City,
+        t: List[String]
+    )
+
+@main("PROJET TAWEB PRESENTE PAR MOJDI - SOFIANE - ELIMANE") {
+	<supertag>
+      
+        <h6>@message</h6>
+
+        <div align="center">
+        <form class="navbar-form navbar-left" role="search"  method="post" action="/ville/recherchebytype">
+
+        <button type="submit" class="btn btn-primary" name="nom">Rechercher par type :</button>
+  	  <select name="type" id="type"  class="selectpicker" data-style="btn-primary" >
+        
+     @for(mytype <- t)  {
+         
+     	<option value="@mytype" selected="1" >
+           @mytype
+     </option>
+     }
+      
+        	  </select>
+        
+        	 
+        
+        
+        	         	  </form>
+        	         	  </div>
+    
+        	         	   <p></p>  
+        	               <p></p>  
+        	               <p></p>  
+        	               <p></p>  
+        	               <p></p>  
+        	               <p></p> 
+        	         	  
+        	         	  
+        	         	 <div align="right">
+        	             
+        	           	 <script type="text/javascript"
+        	             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsIjklDSY7-q0VMGc2tLXOQQXiRM0azZg&sensor=false">
+        	           </script>
+        	           <script type="text/javascript">
+        	           function initialize() {
+        	        	   myLatlng = new google.maps.LatLng(@ville.getLatitude(), @ville.getLogitude());
+        	             var mapOptions = {
+        	            		
+        	               zoom: 12,
+        	               center: myLatlng
+        	         
+        	               
+        	             };
+        	             var map = new google.maps.Map(document.getElementById("map-canvas"),
+        	                 mapOptions);
+        	             
+        	             var marker = new google.maps.Marker({
+        	            	    position: myLatlng,
+        	            	    title:"Hello World!"
+        	            	});
+        	             marker.setMap(map);
+        	             
+        	           }
+        	           google.maps.event.addDomListener(window, 'load', initialize);
+        	         </script>
+        	         	 
+        	         	 
+        	         </div>
+        	         	 
+        	          
+        	         	 
+        	         	 
+        	     <div align="right" id="map-canvas" style="width:800px; height: 300px"></div>
+        	         	  
+        	     <div> </div>  	
+        	     <p></p>
+        	     <div> </div>  	
+        	     <p></p>
+        	         	  
+        <!-- Liste des etablissements dans la ville -->
+      
+        <ul>
+            @for(ent <- ville.getResults() ) {
+                <li>
+                <img src="@ent.getIcon()" alt=""><h3><a href="/ville/detail/ent=@ent" name="ent">@ent.getName()</a></h3>
+               Adresse : @ent.getVicinity()
+                </li>
+                
+           
+            }
+        </ul>   
+      <!--  <a href="/">Nouvelle rechercher</a>-->
+        <form method="get" action="/">
+        <button type="submit" class="btn btn-primary">Lancer une Nouvelle Recherche</button>
+    </form>
+   
+    
+    }

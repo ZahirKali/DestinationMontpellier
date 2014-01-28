@@ -9,7 +9,16 @@ GET     /                           controllers.Application.index()
 # Models routes recherche
 POST /ville/recherche                  controllers.Application.recherche()
 
+# Models routes recherche
+POST /ville/recherchebytype                  controllers.Application.recherchebytype()
 
+
+#GET  /ville/detail{lat,lng}                                controllers.Application.detail
+
+
+GET /ville/spaql                                      controllers.Application.requeteSparql()
+
+POST /ville/spaqlresult                                        controllers.Application.resultatrequete()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

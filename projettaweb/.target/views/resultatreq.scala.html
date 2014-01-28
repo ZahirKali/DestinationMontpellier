@@ -1,0 +1,86 @@
+@(     
+	
+        nom: String,
+        lis: String
+    )
+
+@main("PROJET TAWEB PRESENTE PAR MOJDI - SOFIANE - ELIMANE") {
+	<supertag>
+      
+
+        
+        
+	 <link rel="stylesheet" media="screen" href="@routes.Assets.at("bootstrap/css/mystyle.css")">
+       
+        
+        
+        <br /><br />
+        <br /><br />
+
+        
+        
+        <div id="header">
+    	<h1>EDITEUR REQUETE SPARQL PROJET TAWEB</h1>
+        </div>
+
+      
+
+        <div id="main">
+        <br />
+    	<form action="/ville/spaqlresult" method="post"  class="navbar-form navbar-left" role="search">
+    	
+    	<fieldset>
+    	
+    	
+    	
+    		<input type="text" name="default-graph-uri" id="default-graph-uri" value="TAWEB" size="80"/>
+    		<br /><br />
+    	<!--	<label for="query">Query Text</label><br /> -->
+    		   <label for="exampleInputEmail1">Query Text</label>
+    		<textarea name="query" rows="18" cols="200"  class="form-control" >select distinct ?Concept where {[] a ?Concept} LIMIT 100</textarea>		<br /><br />
+    		
+    		<br /><br />
+    		
+    		 <select name="format" id="type"  class="selectpicker" data-style="btn-primary" >
+ 	        
+    	    	
+	         
+ 	     	<option value="text/html" selected="selected" >  text/html </option>
+ 	     	<option value="XML" selected="selected" > XML  </option>
+ 	   
+ 	     
+ 	      
+ 	        	  </select>
+ 		
+ 	        	  <br /><br /><br /><br />
+    		
+    		
+    		
+    		<textarea rows="18" cols="300"  class="form-control" >@lis</textarea><br /><br />
+    		
+    		<br />
+    	<!--	<input type="submit" value="Executer la requete"/> -->
+    	
+    	
+    
+    	
+    	    
+    	
+    	
+    	
+    	<br />
+    	<br />
+    	<br />
+    		 <button type="submit" class="btn btn-primary">Executer la requete</button>
+    		 <button type="reset" class="btn btn-primary" value="Reset">Reset</button>
+    	<!-- <input type="reset" value="Reset"/> -->
+    	</fieldset>
+    	</form>
+    	
+        </div>
+        
+        
+       
+
+        
+    }

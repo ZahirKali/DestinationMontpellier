@@ -8,6 +8,12 @@
  * Designed and built with all the love in the world by @mdo and @fat.
  */
 
+
+.alignement{
+margin-top: 100px;
+}
+
+
 .clearfix {
   *zoom: 1;
 }
@@ -228,6 +234,10 @@ body {
   line-height: 20px;
   color: #333333;
   background-color: #ffffff;
+
+  background-image: url("../img/intro-bg.jpg");
+  background-repeat:repeat-y;
+  position: relative;
 }
 
 a {
@@ -617,6 +627,7 @@ a:focus {
 .container {
   margin-right: auto;
   margin-left: auto;
+margin-top: 50px;
   *zoom: 1;
 }
 

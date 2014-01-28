@@ -1,6 +1,6 @@
-﻿DestinationMontpellier
-======================
-
-Le diagramme de classes est incomplet, on doit avoir toute les ressources pour le completer. Chose qu'on va essayer de faire d'ici la réunin de demain matin.
-
-
+﻿Pour lancer le projet:
+	-> Creer une base de donnée "places_rdf" dans MySQL sans mot de passe
+	
+Dans le projet il y'a:	
+	->ProjetWebAvancee: le code source Java du projet
+	->projettaweb: code source Java + site web Play

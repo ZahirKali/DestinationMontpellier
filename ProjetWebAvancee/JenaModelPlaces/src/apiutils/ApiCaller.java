@@ -12,9 +12,7 @@ import java.net.URLEncoder;
 public abstract class ApiCaller {
 
 	public static String cUrl(URL url) {
-		
 		System.out.println(url);
-		
 		InputStream is = null;
 		try {
 			is = url.openConnection().getInputStream();

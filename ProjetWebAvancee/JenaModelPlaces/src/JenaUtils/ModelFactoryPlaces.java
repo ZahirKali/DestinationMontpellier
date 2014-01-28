@@ -18,7 +18,6 @@ import com.hp.hpl.jena.vocabulary.XSD;
 
 public class ModelFactoryPlaces {
 	private OntModel model;
-	private InfModel inf;
 	private String namespace = "http://localhost:9000/techweb#";
 	private String ns_city = "http://localhost:9000/techweb/city#";
 	private String ns_entity = "http://localhost:9000/techweb/entity#";
@@ -45,10 +44,6 @@ public class ModelFactoryPlaces {
 
 	public OntModel getModel() {
 		return model;
-	}
-
-	public InfModel getInfModel() {
-		return inf;
 	}
 
 	public static ModelFactoryPlaces getMPlaces() {
@@ -287,11 +282,7 @@ public class ModelFactoryPlaces {
 			e.printStackTrace();
 		}
 	}
-
-	public void toConsoleInf() {
-		getInfModel().write(System.out, "RDF/XML-ABBREV");
-	}
-
+ 
 	/**
 	 * Get Airport OntClass
 	 * 
@@ -478,31 +469,5 @@ public class ModelFactoryPlaces {
 	public String getNamespace() {
 		return namespace;
 	}
-
-	// private void infGeneration(){
-	// inf = ModelFactory.createRDFSModel(model);
-	// inf.add(city,OWL.equivalentClass,"http://dbpedia.org/ontology/City");
-	// }
-	//
-	// public void exec(){
-	// String q ="PREFIX p: <http://localhost:9000/techweb/city#>"
-	// +"PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-	// +"PREFIX dbp:<http://dbpedia.org/ontology/>"
-	// + " select * where { ?o  ?s \"http://dbpedia.org/ontology/City\"}";
-	//
-	// Query q1 = QueryFactory.create(q);
-	// QueryExecution qexec = QueryExecutionFactory.create(q1, getInfModel());
-	//
-	// try {
-	//
-	// ResultSet rs = qexec.execSelect() ;
-	// ResultSetFormatter.out(System.out, rs, q1);
-	// }
-	// finally
-	// {
-	// qexec.close() ;
-	// }
-	//
-	// }
 
 }

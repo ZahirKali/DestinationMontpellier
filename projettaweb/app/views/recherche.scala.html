@@ -1,32 +1,102 @@
 @(     
-		message: String,
-        v: models.Ville,
-        nom: String
+	
+        v: models.City,
+        nom: String,
+    	t: List[String]
     )
 
-@main("liste des etablissements touristiques de la ville") {
+@main("PROJET TAWEB PRESENTE PAR MOJDI - SOFIANE - ELIMANE") {
 	<supertag>
         <h1>Ville de @nom</h1>
-        <h6>@message</h6>
 
+<div align="center">
+
+        <form class="navbar-form navbar-left" role="search" method="post" action="/ville/recherchebytype">
+
+        <button type="submit" class="btn btn-primary" name="nom">Rechercher par type :</button>
+        	  <select name="type" id="type"  class="selectpicker" data-style="btn-primary">
         
-        
+            @for(mytype <- t)  {
+           
+            	<option value="@mytype" selected="selected" >
+                  @mytype
+            </option>
+            }
+           
+        	  </select>
+        	 
+    
+        	         	 
+        	         	 </form>
+       </div>
+       <p></p>  
+       <p></p>  
+       <p></p>  
+       <p></p>  
+       <p></p>  
+       <p></p> 
+       <div align="right">
+     
+        	         	 <script type="text/javascript"
+        	             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsIjklDSY7-q0VMGc2tLXOQQXiRM0azZg&sensor=false">
+        	           </script>
+        	           <script type="text/javascript">
+        	           function initialize() {
+        	        	   myLatlng = new google.maps.LatLng(@v.getLatitude(), @v.getLogitude());
+        	             var mapOptions = {
+        	            		
+        	               zoom: 12,
+        	               center: myLatlng
+        	         
+        	               
+        	             };
+        	             var map = new google.maps.Map(document.getElementById("map-canvas"),
+        	                 mapOptions);
+        	             
+        	             var marker = new google.maps.Marker({
+        	            	    position: myLatlng,
+        	            	    title:"Hello World!"
+        	            	});
+        	             marker.setMap(map);
+        	             
+        	           }
+        	           google.maps.event.addDomListener(window, 'load', initialize);
+        	         </script>
+        	         	 
+        	         	 
+        	         </div>
+        	         	 
+        	          
+        	         	 
+        	         	 
+        	     <div align="right" id="map-canvas" style="width:800px; height: 300px"></div>
+        	     <div> </div>  
+        	     <p></p>
+        	     <div> </div>  
+        	     <p></p>
         <!-- Liste des etablissements dans la ville -->
         <ul>
             @for(ent <- v.getResults() ) {
                 <li>
-                <img src="@ent.getIcon()" alt=""><h3><a href="/" name="type">@ent.getName()</a></h3>
+                <img src="@ent.getIcon()" alt=""><h3><a href="/ville/detail/lat=@ent.getGeometry().getLocation().getLat()&lng=@ent.getGeometry().getLocation().getLng()">@ent.getName()</a></h3>
                Adresse : @ent.getVicinity()
+                
                 </li>
                 
-            <!--  @for(str <- ent.getTypes()) {
-                	 @str
-                } -->
             }
+            
         </ul>   
+        
+       
+        
+      
+        
+        
+  
+    
       <!--  <a href="/">Nouvelle rechercher</a>-->
         <form method="get" action="/">
-        <button class="btn" type="submit">Lancer une Nouvelle Recherche</button>
+        <button type="submit" class="btn btn-primary">Lancer une Nouvelle Recherche</button>
     </form>
         
     }

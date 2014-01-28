@@ -82,9 +82,7 @@ public class SDBUtils {
 		}
 
 		Store store = SDBFactory.connectStore(conn, storeDesc);
-
 		store.getTableFormatter().truncate();
-
 		conn.close();
 
 	}
